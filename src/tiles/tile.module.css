@@ -1,0 +1,36 @@
+
+.tile{
+  width: 44px;
+  height: 44px;
+  outline: 1px solid rgba(255,255,255,0.3);
+  position: relative;
+  cursor: pointer;
+
+  > span{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,0.5);
+    border-radius: 3px;
+     font-size: 8px;
+     font-weight:bold;
+     pointer-events: none;
+  user-select: none; 
+  }
+
+  &.invalid{
+    background-color: rgba(255,0,0,0.5);
+  }
+
+  &.valid{
+    &.water{
+        background-image: url('water-base.png');
+    }
+    &.grass{
+      background-image: url('grass-base.png');
+    }
+    &.road{
+      background-color: rgba(0,0,0,0.5);
+    }
+  }
+}
