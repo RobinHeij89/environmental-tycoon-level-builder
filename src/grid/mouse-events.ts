@@ -95,7 +95,6 @@ export const onMouseEnter = ({ tileToSet, isDragging, startPos, setEndPos, setTi
       calculateArea({ setTiles, tileToSet, tiles }, startPos!, { x, y });
     }
   } else {
-    console.log(tiles);
     if (tileToSet) {
       setTiles!(old => {
         return {
