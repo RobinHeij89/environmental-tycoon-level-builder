@@ -23,9 +23,9 @@ export const Sidebar = ({
   tiles,
   setTiles,
   tileToSet, setTileToSet,
-  isDragging, setIsDragging,
-  startPos, setStartPos,
-  endPos, setEndPos,
+  isDragging,
+  startPos,
+  endPos,
 }: Props) => {
   const incorrectDataLength = tiles.gridList.length > (tiles.gridSizeX * tiles.gridSizeY)
 
@@ -58,7 +58,9 @@ export const Sidebar = ({
         const target = e.target;
         const result = target?.result;
         result && setTiles(JSON.parse(result as string));
-        inputFile.current.value = '';
+        if (inputFile.current) {
+          (inputFile.current as HTMLInputElement).value = '';
+        }
       };
     }
   };
