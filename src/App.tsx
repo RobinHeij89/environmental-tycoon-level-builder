@@ -4,7 +4,6 @@ import { AvailableTileType, Coord, TileEnum, TileType, type LevelType } from './
 import { Sidebar } from './sidebar/Sidebar';
 import { Grid } from './grid/Grid';
 
-
 function App() {
   const [tileToSet, setTileToSet] = useState<AvailableTileType>();
   const [tiles, setTiles] = useState<LevelType>({
