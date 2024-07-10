@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import style from './app.module.css'
 import { AvailableTileType, Coord, TileEnum, TileType, type LevelType } from './types';
 import { Sidebar } from './sidebar/Sidebar';
