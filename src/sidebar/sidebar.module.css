@@ -33,10 +33,10 @@
     }
 
     &.water{
-      background-image: url('water-base.png');
+      background-image: url('./water-base.png');
     }
     &.grass{
-      background-image: url('grass-base.png');
+      background-image: url('./grass-base.png');
     }
     &.road{
       background-color: rgba(0,0,0,0.5);
