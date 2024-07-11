@@ -109,6 +109,14 @@ export const Grid = ({
   };
   const incorrectDataLength = tiles.gridList.length > (tiles.gridSizeX * tiles.gridSizeY)
 
+  const onMouseOutGrid = () => {
+    setTiles(old => {
+      return {
+        ...old,
+        previewTiles: []
+      }
+    })
+  }
   return (
     <div className={style.wrapper}>
       <div className={clsx(style.bar, style.topbar)}>
@@ -132,11 +140,15 @@ export const Grid = ({
         </div>
       </div>
       <div className={style.content}>
-        <div className={clsx(style.grid, style.landscape)} style={{
-          gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
-          gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
-          gap: '1px'
-        }}>
+        <div
+          className={clsx(style.grid, style.landscape)}
+          style={{
+            gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
+            gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
+            gap: '1px'
+          }}
+          onMouseOut={onMouseOutGrid}
+        >
           {
             Array.from({ length: tiles.gridSizeY }).map((_, y) => {
               const newY = tiles.gridSizeY - y - 1;
