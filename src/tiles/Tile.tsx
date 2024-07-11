@@ -15,9 +15,32 @@ type TileProps = {
   y: number
   isValid?: boolean
   isPreview?: boolean
+  neighbours: {
+    top?: TileEnum
+    right?: TileEnum
+    bottom?: TileEnum
+    left?: TileEnum
+  }
 }
 
-export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
+export const Tile = ({ neighbours, onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
+  const Dithers = [];
+
+  if (tileType === TileEnum.Grass) {
+    if (neighbours.top === TileEnum.Water) {
+      Dithers.push(<div className={clsx(style.sand, style['water-top'])} />);
+    }
+    if (neighbours.right === TileEnum.Water) {
+      Dithers.push(<div className={clsx(style.sand, style['water-right'])} />);
+    }
+    if (neighbours.bottom === TileEnum.Water) {
+      Dithers.push(<div className={clsx(style.sand, style['water-bottom'])} />);
+    }
+    if (neighbours.left === TileEnum.Water) {
+      Dithers.push(<div className={clsx(style.sand, style['water-left'])} />);
+    }
+  }
+
   return (
     <div
       className={
@@ -33,6 +56,11 @@ export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isV
       onMouseUp={onMouseUp}
       onMouseEnter={onMouseEnter}
     >
+      {Dithers.map((dither, index) => (
+        <div key={index} className={style.dither}>
+          {dither}
+        </div>
+      ))}
       {showCoords && (<span>{x}, {y}</span>)}
     </div>
   )

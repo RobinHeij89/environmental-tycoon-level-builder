@@ -170,6 +170,14 @@ export const Grid = ({
                     tileType={
                       tiles.gridList.find(tile => tile.x === x && tile.y === newY)?.type ?? undefined
                     }
+                    neighbours={
+                      {
+                        top: tiles.gridList.find(tile => tile.x === x && tile.y === newY + 1)?.type,
+                        right: tiles.gridList.find(tile => tile.x === x + 1 && tile.y === newY)?.type,
+                        bottom: tiles.gridList.find(tile => tile.x === x && tile.y === newY - 1)?.type,
+                        left: tiles.gridList.find(tile => tile.x === x - 1 && tile.y === newY)?.type,
+                      }
+                    }
                   />
                 )
               })
@@ -195,7 +203,17 @@ export const Grid = ({
                     y={newY}
                     tileType={
                       tiles.roadTiles.find(tile => tile.x === x && tile.y === newY) ? TileEnum.Road : undefined
-                    } />
+                    }
+
+                    neighbours={
+                      {
+                        top: tiles.roadTiles.find(tile => tile.x === x && tile.y === newY + 1)?.type,
+                        right: tiles.roadTiles.find(tile => tile.x === x + 1 && tile.y === newY)?.type,
+                        bottom: tiles.roadTiles.find(tile => tile.x === x && tile.y === newY - 1)?.type,
+                        left: tiles.roadTiles.find(tile => tile.x === x - 1 && tile.y === newY)?.type,
+                      }
+                    }
+                  />
                 )
               })
             })
@@ -224,6 +242,14 @@ export const Grid = ({
                       tiles.previewTiles?.find(tile => tile.x === x && tile.y === newY)?.type
                     }
                     isValid={tiles.previewTiles?.find(tile => tile.x === x && tile.y === newY)?.isValid}
+                    neighbours={
+                      {
+                        top: undefined,
+                        right: undefined,
+                        bottom: undefined,
+                        left: undefined,
+                      }
+                    }
                   />
                 )
               })
