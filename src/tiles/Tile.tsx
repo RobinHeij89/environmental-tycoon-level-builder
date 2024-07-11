@@ -6,6 +6,7 @@ import style from './tile.module.css'
 
 type TileProps = {
   showCoords: boolean
+  showGrid: boolean
   onMouseEnter?: () => void
   onMouseDown?: () => void
   onMouseUp?: () => void
@@ -13,12 +14,21 @@ type TileProps = {
   x: number
   y: number
   isValid?: boolean
+  isPreview?: boolean
 }
 
-export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true, showCoords = false }: TileProps) => {
+export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
   return (
     <div
-      className={clsx(style.tile, tileType ? style[tileEnumToClass(tileType)] : '', isValid ? style.valid : style.invalid)}
+      className={
+        clsx(
+          style.tile,
+          showGrid ? style['show-grid'] : '',
+          tileType ? style[tileEnumToClass(tileType ?? TileEnum.Grass)] : '',
+          isValid ? style.valid : style.invalid,
+          isPreview ? style.preview : ''
+        )
+      }
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onMouseEnter={onMouseEnter}

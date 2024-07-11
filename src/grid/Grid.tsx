@@ -28,6 +28,7 @@ export const Grid = ({
   endPos, setEndPos,
 }: GridProps) => {
   const [showCoords, setShowCoords] = useState<boolean>(false);
+  const [showGrid, setShowGrid] = useState<boolean>(true);
   const [tileSize, setTileSize] = useState<number>(44);
 
   const resetGrid = () => {
@@ -145,7 +146,7 @@ export const Grid = ({
           style={{
             gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
             gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
-            gap: '1px'
+            gap: showGrid ? 1 : 0
           }}
           onMouseOut={onMouseOutGrid}
         >
@@ -159,6 +160,7 @@ export const Grid = ({
                 return (
                   <Tile
                     showCoords={showCoords}
+                    showGrid={showGrid}
                     onMouseDown={mouseDownHandlerWithCoords}
                     onMouseUp={mouseUpHandlerWithCoords}
                     onMouseEnter={mouseEnterHandlerWithCoords}
@@ -178,7 +180,7 @@ export const Grid = ({
         <div className={clsx(style.grid, style.roads)} style={{
           gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
           gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
-          gap: '1px'
+          gap: showGrid ? 1 : 0
         }}>
           {
             Array.from({ length: tiles.gridSizeY }).map((_, y) => {
@@ -187,6 +189,7 @@ export const Grid = ({
                 return (
                   <Tile
                     showCoords={showCoords}
+                    showGrid={showGrid}
                     key={`${x}${newY}_roads`}
                     x={x}
                     y={newY}
@@ -203,7 +206,7 @@ export const Grid = ({
         <div className={clsx(style.grid, style.preview)} style={{
           gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
           gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
-          gap: '1px'
+          gap: showGrid ? 1 : 0
         }}>
           {
             Array.from({ length: tiles.gridSizeY }).map((_, y) => {
@@ -211,7 +214,9 @@ export const Grid = ({
               return Array.from({ length: tiles.gridSizeX }).map((_, x) => {
                 return (
                   <Tile
+                    isPreview={tiles.previewTiles?.findIndex(tile => tile.x === x && tile.y === newY) !== -1}
                     showCoords={showCoords}
+                    showGrid={showGrid}
                     key={`${x}${newY}_preview`}
                     x={x}
                     y={newY}
@@ -228,6 +233,15 @@ export const Grid = ({
       </div>
       <div className={clsx(style.bar, style.bottombar)}>
         <div>
+          <label>
+            <b>Show Grid</b><br />
+            <input
+              type="checkbox"
+              checked={showGrid}
+              onChange={() => setShowGrid(!showGrid)}
+            />
+          </label>
+          <div className={style.divider} />
           <label>
             <b>Show Coords</b><br />
             <input
