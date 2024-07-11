@@ -4,6 +4,10 @@
   max-height: 100vh;
   padding: 24px;
   overflow: auto;
+  display:flex;
+  flex-flow: column wrap;
+  justify-content:space-between;
+  gap: 16px;
 
   .buildlist{
     list-style: none;

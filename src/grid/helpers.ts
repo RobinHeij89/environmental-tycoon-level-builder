@@ -2,12 +2,7 @@ import { LevelType, TileType } from "../types"
 import { GridProps } from "./Grid"
 
 export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<LevelType>>) => {
-  console.log('runs');
-
   setTiles(old => {
-    console.log(old.gridList)
-    console.log(old.gridList.filter(tile => tile.x < old.gridSizeX && tile.y < old.gridSizeY))
-
     return {
       ...old,
       gridList: old.gridList.filter(tile => tile.x < old.gridSizeX && tile.y < old.gridSizeY),

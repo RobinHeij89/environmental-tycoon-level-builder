@@ -4,6 +4,7 @@ import { TileEnum } from "../types"
 import { tileEnumToClass } from "./helpers"
 
 type TileProps = {
+  showCoords: boolean
   onMouseEnter?: () => void
   onMouseDown?: () => void
   onMouseUp?: () => void
@@ -13,7 +14,7 @@ type TileProps = {
   isValid?: boolean
 }
 
-export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true }: TileProps) => {
+export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true, showCoords = false }: TileProps) => {
   return (
     <div
       className={clsx(style.tile, tileType ? style[tileEnumToClass(tileType)] : '', isValid ? style.valid : style.invalid)}
@@ -21,7 +22,7 @@ export const Tile = ({ onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isV
       onMouseUp={onMouseUp}
       onMouseEnter={onMouseEnter}
     >
-      <span>{x}, {y} {tileType}</span>
+      {showCoords && (<span>{x}, {y}</span>)}
     </div>
   )
 }

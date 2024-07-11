@@ -17,24 +17,6 @@ function App() {
   const [startPos, setStartPos] = useState<Coord>();
   const [endPos, setEndPos] = useState<Coord>();
 
-  useEffect(() => {
-    const newTiles: TileType[] = [];
-    Array.from({ length: tiles.gridSizeY }).map((_, y) => {
-      Array.from({ length: tiles.gridSizeX }).map((_, x) => {
-        const hasTile = tiles.gridList.find(tile => tile.x === x && tile.y === y);
-        !hasTile && newTiles.push({ x, y, type: TileEnum.Grass });
-      })
-    });
-    setTiles(old => {
-      return {
-        ...old,
-        gridList: [
-          ...old.gridList,
-          ...newTiles
-        ]
-      }
-    })
-  }, [tiles.gridSizeX, tiles.gridSizeY]);
 
   const throughProps = {
     tiles,
