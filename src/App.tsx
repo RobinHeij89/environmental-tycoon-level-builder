@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+
 import style from './app.module.css'
-import { AvailableTileType, Coord, TileEnum, TileType, type LevelType } from './types';
-import { Sidebar } from './sidebar/Sidebar';
 import { Grid } from './grid/Grid';
+import { Sidebar } from './sidebar/Sidebar';
+import { AvailableTileType, Coord, type LevelType } from './types';
 
 function App() {
   const [tileToSet, setTileToSet] = useState<AvailableTileType>();

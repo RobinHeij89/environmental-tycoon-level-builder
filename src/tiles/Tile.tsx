@@ -1,7 +1,8 @@
 import clsx from "clsx"
-import style from './tile.module.css'
+
 import { TileEnum } from "../types"
 import { tileEnumToClass } from "./helpers"
+import style from './tile.module.css'
 
 type TileProps = {
   showCoords: boolean

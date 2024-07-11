@@ -1,5 +1,5 @@
 import { TileEnum } from "../types";
-import { calculateLine, calculateArea } from "./calculations";
+import { calculateArea,calculateLine } from "./calculations";
 import { GridProps } from "./Grid";
 import { checkValidTile, updateGridTiles } from "./helpers";
 

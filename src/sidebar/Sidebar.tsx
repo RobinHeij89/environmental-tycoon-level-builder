@@ -1,10 +1,10 @@
 import clsx from 'clsx'
+
 import { removeOutOfBounds } from '../grid/helpers'
-import { Todo } from '../todo/todo'
-import { LevelType, AvailableTileType, Coord, TileEnum } from '../types'
-import style from './sidebar.module.css'
-import { useRef } from 'react'
 import { getTileType } from '../tiles/helpers'
+import { Todo } from '../todo/todo'
+import { AvailableTileType, Coord, LevelType, TileEnum } from '../types'
+import style from './sidebar.module.css'
 
 interface Props {
   tiles: LevelType,

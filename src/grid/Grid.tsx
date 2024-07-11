@@ -1,9 +1,10 @@
 import clsx from "clsx";
+import { useEffect, useRef, useState } from "react";
+
 import { Tile } from "../tiles/Tile";
 import { AvailableTileType, Coord, LevelType, TileEnum, TileType } from "../types";
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
-import { useEffect, useRef, useState } from "react";
 
 export interface GridProps {
   tiles: LevelType,
@@ -68,6 +69,7 @@ export const Grid = ({
 
   useEffect(() => {
     prefillGrid();
+
   }, [tiles.gridSizeX, tiles.gridSizeY]);
 
   const downloadHandler = () => {
@@ -76,7 +78,7 @@ export const Grid = ({
     delete stipTiles.previewTiles;
     const jsonStr = JSON.stringify(tiles);
 
-    let element = document.createElement('a');
+    const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
     element.setAttribute('download', filename);
 
@@ -91,7 +93,7 @@ export const Grid = ({
   const inputFile = useRef(null);
   const onChangeFile = async (e: React.FormEvent<HTMLInputElement>) => {
     if (!e.target) return;
-    let file = (e.target as HTMLInputElement).files?.[0];
+    const file = (e.target as HTMLInputElement).files?.[0];
     if (file) {
       const fileReader = new FileReader();
       fileReader.readAsText(file, "UTF-8");

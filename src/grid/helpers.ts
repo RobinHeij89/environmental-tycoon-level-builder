@@ -12,8 +12,8 @@ export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<
 }
 
 export const checkValidTile = ({ tileToSet, tiles }: Partial<GridProps>, x: number, y: number) => {
-  const gridTileToCheck = tiles!.gridList.find(tile => tile.x === x && tile.y === y)?.type!;
-  const roadTileToCheck = tiles!.roadTiles.find(tile => tile.x === x && tile.y === y)?.type!;
+  const gridTileToCheck = tiles!.gridList.find(tile => tile.x === x && tile.y === y)!.type!;
+  const roadTileToCheck = tiles!.roadTiles.find(tile => tile.x === x && tile.y === y)!.type!;
   const gridTileClashFound = tileToSet!.clashingTiles?.includes(gridTileToCheck);
   const roadTileClashFound = tileToSet!.clashingTiles?.includes(roadTileToCheck);
   return !gridTileClashFound && !roadTileClashFound;
