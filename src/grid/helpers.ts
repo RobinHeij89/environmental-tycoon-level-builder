@@ -25,8 +25,12 @@ export const checkValidTile = ({ tileToSet, tiles }: Partial<GridProps>, x: numb
   return !gridTileClashFound && !roadTileClashFound;
 }
 
-export const updateGridTiles = (gridList: TileType[], previewTiles: TileType[]) => {
+export const updateGridTiles = (gridList: TileType[], previewTiles: TileType[], remove?: boolean) => {
   const newGridList = gridList.filter(tile => !previewTiles.find(previewTile => previewTile.x === tile.x && previewTile.y === tile.y));
+  if (remove) {
+    return newGridList;
+  }
+
   return [
     ...newGridList,
     ...previewTiles

@@ -4,6 +4,7 @@
   height: 100%;
   position: relative;
   cursor: pointer;
+    background-size: cover;
 
   > span{
     position: absolute;
@@ -37,7 +38,10 @@
       background-image: url('./assets/grass-base.png');
     }
     &.road{
-      background-color: rgba(0,0,0,0.5);
+      background-image: url('./assets/road.png');
+    }
+    &.destroy{
+      background-image: url('./assets/destroy.png');
     }
   }
 }

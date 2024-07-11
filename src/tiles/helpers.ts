@@ -1,7 +1,7 @@
 import { availableTiles, TileEnum } from "../types";
 
 export const tileEnumToClass = (tileType: TileEnum) => {
-  const tiles = ['water', 'grass', 'road'];
+  const tiles = ['water', 'grass', 'road', 'destroy'];
   return tiles[tileType];
 }
 

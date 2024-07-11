@@ -1,5 +1,5 @@
 import { TileEnum } from "../types";
-import { calculateArea,calculateLine } from "./calculations";
+import { calculateArea, calculateLine } from "./calculations";
 import { GridProps } from "./Grid";
 import { checkValidTile, updateGridTiles } from "./helpers";
 
@@ -26,6 +26,14 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
           return {
             ...old,
             roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type }]),
+            previewTiles: []
+          }
+        })
+      } else if (tileToSet.type === TileEnum.Destroy) {
+        setTiles!(old => {
+          return {
+            ...old,
+            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type }], true),
             previewTiles: []
           }
         })
@@ -62,6 +70,14 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
           return {
             ...old,
             roadTiles: updateGridTiles(old.roadTiles, old.previewTiles!),
+            previewTiles: []
+          }
+        })
+      } else if (tileToSet.type === TileEnum.Destroy) {
+        setTiles!(old => {
+          return {
+            ...old,
+            roadTiles: updateGridTiles(old.roadTiles, old.previewTiles!, true),
             previewTiles: []
           }
         })

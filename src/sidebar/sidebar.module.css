@@ -30,7 +30,8 @@
     color: white;
     position: relative;
     z-index: 1;
-    
+    background-size: cover;
+
     &.active{
       outline: 2px solid white;
       z-index:2;
@@ -43,7 +44,10 @@
       background-image: url('./assets/grass-base.png');
     }
     &.road{
-      background-color: rgba(0,0,0,0.5);
+      background-image: url('./assets/road.png');
+    }
+    &.destroy{
+      background-image: url('./assets/destroy.png');
     }
   }
 }

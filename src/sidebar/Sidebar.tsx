@@ -1,9 +1,8 @@
 import clsx from 'clsx'
 
 import { removeOutOfBounds } from '../grid/helpers'
-import { getTileType } from '../tiles/helpers'
 import { Todo } from '../todo/todo'
-import { AvailableTileType, Coord, LevelType, TileEnum } from '../types'
+import { availableTiles, AvailableTileType, CategoryEnum, Coord, LevelType, TileEnum } from '../types'
 import style from './sidebar.module.css'
 
 interface Props {
@@ -29,6 +28,16 @@ export const Sidebar = ({
 }: Props) => {
   const incorrectDataLength = tiles.gridList.length > (tiles.gridSizeX * tiles.gridSizeY)
 
+  const returnKeyByIndex = (index: string) => {
+    const indexNmbr = parseInt(index, 10)
+    return Object.keys(TileEnum)[indexNmbr];
+  }
+
+  const availableTilesTerrain = availableTiles.filter(tile => tile.category === CategoryEnum.Terrain);
+  const availableTilesRoad = availableTiles.filter(tile => tile.category === CategoryEnum.Road);
+  const availableTilesBuilding = availableTiles.filter(tile => tile.category === CategoryEnum.Building);
+  const availableTilesTool = availableTiles.filter(tile => tile.category === CategoryEnum.Tool);
+
   return (
     <aside className={style.sidebar}>
       <div>
@@ -41,17 +50,74 @@ export const Sidebar = ({
         </fieldset>
 
 
-        <fieldset>
-          <legend>Build tiles:</legend>
-          <ul className={style.buildlist}>
-            <li><button className={clsx(style.tilebutton, style.water, tileToSet === getTileType(TileEnum.Water) && style.active)} onClick={() => setTileToSet(getTileType(TileEnum.Water))}>Water</button></li>
-            <li><button className={clsx(style.tilebutton, style.grass, tileToSet === getTileType(TileEnum.Grass) && style.active)} onClick={() => setTileToSet(getTileType(TileEnum.Grass))}>Grass</button></li>
-            <li><button className={clsx(style.tilebutton, style.road, tileToSet === getTileType(TileEnum.Road) && style.active)} onClick={() => setTileToSet(getTileType(TileEnum.Road))}>Road</button></li>
-          </ul>
-          {startPos && <p>Start position: {startPos.x}, {startPos.y}</p>}
-          {isDragging && <p>Dragging...</p>}
-          {endPos && <p>End position: {endPos.x}, {endPos.y}</p>}
-        </fieldset>
+        {availableTilesTerrain.length > 0 && (
+          <fieldset>
+            <legend>Terrain:</legend>
+            <ul className={style.buildlist}>
+              {
+                availableTilesTerrain.map(tile => (
+                  <li key={tile.type}>
+                    <button className={clsx(style.tilebutton, style[returnKeyByIndex(tile.type).toLowerCase()], tileToSet?.type === tile.type && style.active)} onClick={() => setTileToSet(tile)} />
+                  </li>
+                ))
+              }
+            </ul>
+          </fieldset>
+        )}
+
+        {availableTilesRoad.length > 0 && (
+          <fieldset>
+            <legend>Road:</legend>
+            <ul className={style.buildlist}>
+              {
+                availableTilesRoad.map(tile => (
+                  <li key={tile.type}>
+                    <button className={clsx(style.tilebutton, style[returnKeyByIndex(tile.type).toLowerCase()], tileToSet?.type === tile.type && style.active)} onClick={() => setTileToSet(tile)} />
+                  </li>
+                ))
+              }
+            </ul>
+          </fieldset>
+        )}
+
+        {availableTilesBuilding.length > 0 && (
+          <fieldset>
+            <legend>Buildings:</legend>
+            <ul className={style.buildlist}>
+              {
+                availableTilesBuilding.map(tile => (
+                  <li key={tile.type}>
+                    <button className={clsx(style.tilebutton, style[returnKeyByIndex(tile.type).toLowerCase()], tileToSet?.type === tile.type && style.active)} onClick={() => setTileToSet(tile)} />
+                  </li>
+                ))
+              }
+            </ul>
+          </fieldset>
+        )}
+
+        {availableTilesTool.length > 0 && (
+          <fieldset>
+            <legend>Tools:</legend>
+            <ul className={style.buildlist}>
+              {
+                availableTilesTool.map(tile => (
+                  <li key={tile.type}>
+                    <button className={clsx(style.tilebutton, style[returnKeyByIndex(tile.type).toLowerCase()], tileToSet?.type === tile.type && style.active)} onClick={() => setTileToSet(tile)} />
+                  </li>
+                ))
+              }
+            </ul>
+          </fieldset>
+        )}
+
+        {(startPos || isDragging || endPos) && (
+          <fieldset>
+            <legend>Debug:</legend>
+            {startPos && <p>Start position: {startPos.x}, {startPos.y}</p>}
+            {isDragging && <p>Dragging...</p>}
+            {endPos && <p>End position: {endPos.x}, {endPos.y}</p>}
+          </fieldset>
+        )}
 
       </div>
 
