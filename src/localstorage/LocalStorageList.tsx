@@ -1,8 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { LevelTypeLS, TileEnum, TileType } from "../types";
+import { Button } from 'primereact/button';
+import { ListBox } from 'primereact/listbox';
+import { Divider } from 'primereact/divider';
+import { Fieldset } from 'primereact/fieldset';
 
-export const LocalStorageList = ({ levelsLS, setLevelsLS, setTiles }: { levelsLS: LevelTypeLS[], setLevelsLS: React.Dispatch<React.SetStateAction<LevelTypeLS[]>>, setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS | null>> }) => {
+export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { levelsLS: LevelTypeLS[], setLevelsLS: React.Dispatch<React.SetStateAction<LevelTypeLS[]>>, tiles: LevelTypeLS | null, setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS | null>> }) => {
 
   const startNewLevel = () => {
     const newTiles: TileType[] = [];
@@ -41,26 +45,22 @@ export const LocalStorageList = ({ levelsLS, setLevelsLS, setTiles }: { levelsLS
   return (
     <div>
       <h1>Level List</h1>
-      <ul>
-        <li>
-          <button onClick={startNewLevel}>Start new level</button>
-        </li>
-        {levelsLS.map((level) => {
-          return (
-            <li key={level.uuid}>
-              <button onClick={() => setTiles(level)}>{level.displayName}</button>
-            </li>
-          )
-        }
-        )}
-      </ul>
+      <Button onClick={startNewLevel}>Start new level</Button>
+      <Divider />
+
+      <ListBox
+        value={levelsLS.find(level => level.uuid === tiles?.uuid)}
+        onChange={(e) => setTiles(e.value)}
+        options={levelsLS}
+        optionLabel="displayName"
+      />
+      <Divider />
 
       {levelsLS.length > 0 && (
-        <fieldset>
-          <legend>Clear the entire local storage</legend>
+        <Fieldset legend='Clear local storage'>
           <p><b>You will lose everything you don't have in JSON files...</b></p>
           <button onClick={clearLS}>Clear local storage</button>
-        </fieldset>
+        </Fieldset>
       )}
     </div>
   )

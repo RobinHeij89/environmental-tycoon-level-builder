@@ -50,6 +50,7 @@ function App() {
           <LocalStorageList
             levelsLS={levelsLS}
             setLevelsLS={setLevelsLS as React.Dispatch<SetStateAction<LevelTypeLS[]>>}
+            tiles={tiles}
             setTiles={setTiles}
           />
         </div>

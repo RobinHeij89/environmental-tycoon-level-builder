@@ -4,6 +4,9 @@ import { removeOutOfBounds } from '../grid/helpers'
 import { Todo } from '../todo/todo'
 import { availableTiles, AvailableTileType, CategoryEnum, Coord, LevelTypeLS, TileEnum } from '../types'
 import style from './sidebar.module.css'
+import { Fieldset } from 'primereact/fieldset'
+import { InputNumber } from 'primereact/inputnumber'
+import { Accordion, AccordionTab } from 'primereact/accordion'
 export interface SidebarProps {
   tiles: LevelTypeLS,
   setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>,
@@ -41,17 +44,16 @@ export const Sidebar = ({
     <aside className={style.sidebar}>
       <div>
         <h1>Level editor</h1>
-        <fieldset>
-          <legend>Change grid size:</legend>
-          <p>x: <input type="number" value={tiles.gridSizeX} onChange={e => setTiles({ ...tiles, gridSizeX: parseInt(e.target.value) })} /></p>
-          <p>y: <input type="number" value={tiles.gridSizeY} onChange={e => setTiles({ ...tiles, gridSizeY: parseInt(e.target.value) })} /></p>
+
+        <Fieldset legend='Grid size' toggleable collapsed>
+          <p>x: <InputNumber value={tiles.gridSizeX} onChange={e => setTiles({ ...tiles, gridSizeX: e.value ?? -1 })} /></p>
+          <p>y: <InputNumber value={tiles.gridSizeY} onChange={e => setTiles({ ...tiles, gridSizeY: e.value ?? -1 })} /></p>
           {incorrectDataLength && (<button onClick={() => removeOutOfBounds(setTiles)}>Remove out of bounds tiles</button>)}
-        </fieldset>
+        </Fieldset>
 
 
         {availableTilesTerrain.length > 0 && (
-          <fieldset>
-            <legend>Terrain:</legend>
+          <Fieldset legend='Terrain' toggleable collapsed>
             <ul className={style.buildlist}>
               {
                 availableTilesTerrain.map(tile => (
@@ -61,12 +63,12 @@ export const Sidebar = ({
                 ))
               }
             </ul>
-          </fieldset>
+          </Fieldset>
         )}
 
         {availableTilesRoad.length > 0 && (
-          <fieldset>
-            <legend>Road:</legend>
+          <Fieldset legend='Roads' toggleable collapsed>
+
             <ul className={style.buildlist}>
               {
                 availableTilesRoad.map(tile => (
@@ -76,12 +78,12 @@ export const Sidebar = ({
                 ))
               }
             </ul>
-          </fieldset>
+          </Fieldset>
         )}
 
         {availableTilesBuilding.length > 0 && (
-          <fieldset>
-            <legend>Buildings:</legend>
+          <Fieldset legend='Buildings' toggleable collapsed>
+
             <ul className={style.buildlist}>
               {
                 availableTilesBuilding.map(tile => (
@@ -91,12 +93,12 @@ export const Sidebar = ({
                 ))
               }
             </ul>
-          </fieldset>
+          </Fieldset>
         )}
 
         {availableTilesTool.length > 0 && (
-          <fieldset>
-            <legend>Tools:</legend>
+          <Fieldset legend='Tools' toggleable collapsed>
+
             <ul className={style.buildlist}>
               {
                 availableTilesTool.map(tile => (
@@ -106,31 +108,35 @@ export const Sidebar = ({
                 ))
               }
             </ul>
-          </fieldset>
+          </Fieldset>
         )}
 
         {(startPos || isDragging || endPos) && (
-          <fieldset>
-            <legend>Debug:</legend>
+          <Fieldset legend='Debug' toggleable collapsed>
+
             {startPos && <p>Start position: {startPos.x}, {startPos.y}</p>}
             {isDragging && <p>Dragging...</p>}
             {endPos && <p>End position: {endPos.x}, {endPos.y}</p>}
-          </fieldset>
+          </Fieldset>
         )}
 
       </div>
 
       <div>
 
-        <details>
-          <summary>Code:</summary>
-          <pre className={style.pre}>
-            {JSON.stringify(tiles, null, 2)}
-          </pre>      </details>
-        <details>
-          <summary>To do:</summary>
-          <Todo />
-        </details>
+        <Accordion activeIndex={-1}>
+          <AccordionTab header="Code">
+            <pre className={style.pre}>
+              {JSON.stringify(tiles, null, 2)}
+            </pre>
+          </AccordionTab>
+        </Accordion>
+        <Accordion activeIndex={-1}>
+          <AccordionTab header="Todo">
+            <Todo />
+
+          </AccordionTab>
+        </Accordion>
       </div>
 
     </aside>

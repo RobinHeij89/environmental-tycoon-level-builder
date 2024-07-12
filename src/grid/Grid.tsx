@@ -7,6 +7,8 @@ import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
+import { Checkbox } from "primereact/checkbox";
+import { InputNumber } from "primereact/inputnumber";
 
 export interface GridProps {
   tiles: LevelTypeLS,
@@ -261,29 +263,29 @@ export const Grid = ({
         <div>
           <label>
             <b>Show Grid</b><br />
-            <input
-              type="checkbox"
+
+            <Checkbox
               checked={showGrid}
               onChange={() => setShowGrid(!showGrid)}
-            />
+            ></Checkbox>
+
           </label>
           <div className={style.divider} />
           <label>
             <b>Show Coords</b><br />
-            <input
-              type="checkbox"
+            <Checkbox
               checked={showCoords}
               onChange={() => setShowCoords(!showCoords)}
-            />
+            ></Checkbox>
           </label>
           <div className={style.divider} />
           <label>
             <b>Tile Size</b><br />
-            <input
-              type="number"
+            <InputNumber
               value={tileSize}
-              onChange={e => setTileSize(parseInt(e.target.value))}
-              size={2}
+              onChange={e => setTileSize(e.value ?? -1)}
+              size={5}
+              suffix=" px"
             />
           </label>
         </div>
