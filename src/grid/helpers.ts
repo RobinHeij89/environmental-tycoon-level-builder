@@ -15,7 +15,7 @@ export const checkValidTile = ({ tileToSet, tiles }: Partial<GridProps>, x: numb
   if (!tileToSet) return false;
 
   const gridTile = tiles!.gridList.find(tile => tile.x === x && tile.y === y);
-  const roadTile = tiles!.gridList.find(tile => tile.x === x && tile.y === y);
+  const roadTile = tiles!.roadTiles.find(tile => tile.x === x && tile.y === y);
   if (!gridTile && !roadTile) return false;
 
   const gridTileToCheck = gridTile ? gridTile.type : undefined;
