@@ -1,7 +1,12 @@
 import MD5 from "crypto-js/md5";
 import { useState } from "react";
+import 'primereact/resources/themes/bootstrap4-dark-purple/theme.css'; //theme
+import 'primereact/resources/primereact.min.css'; //core css
 
+import { Button } from 'primereact/button';
 import App from "./App";
+import { InputText } from "primereact/inputtext";
+import { Card } from "primereact/card";
 
 export const Login = () => {
   const [isVerified, setIsVerified] = useState(false);
@@ -18,10 +23,12 @@ export const Login = () => {
     <>
       {isVerified ? <App />
         : (
-          <form onSubmit={checkPw}>
-            <input id="password" name="password" type='password' />
-            <button>Enter the website</button>
-          </form>
+          <Card title="Login">
+            <form onSubmit={checkPw}>
+              <InputText id="password" name="password" type='password' />
+              <Button>Enter the website</Button>
+            </form>
+          </Card>
         )
       }
     </>

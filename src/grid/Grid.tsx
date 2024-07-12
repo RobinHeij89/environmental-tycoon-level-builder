@@ -5,6 +5,8 @@ import { Tile } from "../tiles/Tile";
 import { AvailableTileType, Coord, LevelTypeLS, TileEnum, TileType } from "../types";
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 
 export interface GridProps {
   tiles: LevelTypeLS,
@@ -114,17 +116,18 @@ export const Grid = ({
     <div className={style.wrapper}>
       <div className={clsx(style.bar, style.topbar)}>
         <div>
-          <button onClick={() => setExpandedSidebar(!expandedSidebar)}>
+          <Button onClick={() => setExpandedSidebar(!expandedSidebar)}>
             {
               expandedSidebar ? 'Hide Sidebar' : 'Show Sidebar'
             }
-          </button>
-          <input type="text" value={tiles.displayName} onChange={e => setTiles({ ...tiles, displayName: e.target.value })} />
+          </Button>
+          <InputText type="text" value={tiles.displayName} onChange={e => setTiles({ ...tiles, displayName: e.target.value })} />
+
         </div>
         <div>
           <div>
             <b>Export</b><br />
-            <button onClick={downloadHandler} disabled={incorrectDataLength}>Download JSON</button>
+            <Button onClick={downloadHandler} disabled={incorrectDataLength}>Download JSON</Button>
           </div>
           <div className={style.divider} />
           <div>
