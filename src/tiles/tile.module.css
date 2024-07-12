@@ -53,24 +53,28 @@
   position: absolute;
   background: yellow;
 }
+
 .water-top{
   top: 0;
   left:0;
   width:var(--dither-width);
   height:var(--dither-height);
 }
+
 .water-bottom{
   bottom: 0;
   left:0;
   width:var(--dither-width);
   height:var(--dither-height);
 }
+
 .water-left{
   top: 0;
   left:0;
   height:var(--dither-width);
   width:var(--dither-height);
 }
+
 .water-right{
   top: 0;
   right:0;

@@ -1,7 +1,7 @@
-import { LevelType, TileType } from "../types"
+import { LevelTypeLS, TileType } from "../types"
 import { GridProps } from "./Grid"
 
-export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<LevelType>>) => {
+export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>) => {
   setTiles(old => {
     return {
       ...old,

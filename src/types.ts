@@ -37,6 +37,11 @@ export type LevelType = {
   previewTiles?: TileTypePreview[]
 }
 
+export type LevelTypeLS = LevelType & {
+  uuid: string
+  displayName: string
+}
+
 export const availableTiles: AvailableTileType[] = [
   { type: TileEnum.Water, clashingTiles: [TileEnum.Road], category: CategoryEnum.Terrain },
   { type: TileEnum.Grass, category: CategoryEnum.Terrain },

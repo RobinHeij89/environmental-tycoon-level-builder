@@ -2,13 +2,13 @@ import clsx from "clsx";
 import { useEffect, useRef, useState } from "react";
 
 import { Tile } from "../tiles/Tile";
-import { AvailableTileType, Coord, LevelType, TileEnum, TileType } from "../types";
+import { AvailableTileType, Coord, LevelTypeLS, TileEnum, TileType } from "../types";
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
 
 export interface GridProps {
-  tiles: LevelType,
-  setTiles: React.Dispatch<React.SetStateAction<LevelType>>,
+  tiles: LevelTypeLS,
+  setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>,
   tileToSet: AvailableTileType | undefined,
   setTileToSet: React.Dispatch<React.SetStateAction<AvailableTileType | undefined>>,
   isDragging: boolean,
@@ -17,6 +17,8 @@ export interface GridProps {
   setStartPos: React.Dispatch<React.SetStateAction<Coord | undefined>>,
   endPos: Coord | undefined,
   setEndPos: React.Dispatch<React.SetStateAction<Coord | undefined>>,
+  expandedSidebar: boolean,
+  setExpandedSidebar: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const Grid = ({
@@ -26,28 +28,12 @@ export const Grid = ({
   isDragging, setIsDragging,
   startPos, setStartPos,
   endPos, setEndPos,
+  expandedSidebar, setExpandedSidebar
 }: GridProps) => {
   const [showCoords, setShowCoords] = useState<boolean>(false);
   const [showGrid, setShowGrid] = useState<boolean>(true);
   const [tileSize, setTileSize] = useState<number>(44);
 
-  const resetGrid = () => {
-    if (confirm('Are you sure you want to reset the grid?')) {
-      const newTiles: TileType[] = [];
-      Array.from({ length: tiles.gridSizeY }).map((_, y) => {
-        Array.from({ length: tiles.gridSizeX }).map((_, x) => {
-          newTiles.push({ x, y, type: TileEnum.Grass });
-        })
-      });
-      setTiles({
-        gridSizeX: 16,
-        gridSizeY: 16,
-        gridList: newTiles,
-        roadTiles: [],
-        previewTiles: []
-      });
-    }
-  }
 
   const prefillGrid = () => {
     const newTiles: TileType[] = [];
@@ -101,7 +87,13 @@ export const Grid = ({
       fileReader.onload = e => {
         const target = e.target;
         const result = target?.result;
-        result && setTiles(JSON.parse(result as string));
+        if (confirm(`Are you sure you want to import this file? It will overwrite the current level. (${tiles.displayName})`)) {
+          result && setTiles({
+            ...JSON.parse(result as string),
+            displayName: tiles.displayName,
+            uuid: tiles.uuid
+          });
+        }
         if (inputFile.current) {
           (inputFile.current as HTMLInputElement).value = '';
         }
@@ -122,7 +114,12 @@ export const Grid = ({
     <div className={style.wrapper}>
       <div className={clsx(style.bar, style.topbar)}>
         <div>
-          <button onClick={resetGrid}>Reset and start over</button>
+          <button onClick={() => setExpandedSidebar(!expandedSidebar)}>
+            {
+              expandedSidebar ? 'Hide Sidebar' : 'Show Sidebar'
+            }
+          </button>
+          <input type="text" value={tiles.displayName} onChange={e => setTiles({ ...tiles, displayName: e.target.value })} />
         </div>
         <div>
           <div>

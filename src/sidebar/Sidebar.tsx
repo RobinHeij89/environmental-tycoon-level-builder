@@ -2,12 +2,11 @@ import clsx from 'clsx'
 
 import { removeOutOfBounds } from '../grid/helpers'
 import { Todo } from '../todo/todo'
-import { availableTiles, AvailableTileType, CategoryEnum, Coord, LevelType, TileEnum } from '../types'
+import { availableTiles, AvailableTileType, CategoryEnum, Coord, LevelTypeLS, TileEnum } from '../types'
 import style from './sidebar.module.css'
-
-interface Props {
-  tiles: LevelType,
-  setTiles: React.Dispatch<React.SetStateAction<LevelType>>,
+export interface SidebarProps {
+  tiles: LevelTypeLS,
+  setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>,
   tileToSet: AvailableTileType | undefined,
   setTileToSet: React.Dispatch<React.SetStateAction<AvailableTileType | undefined>>,
   isDragging: boolean,
@@ -25,7 +24,7 @@ export const Sidebar = ({
   isDragging,
   startPos,
   endPos,
-}: Props) => {
+}: SidebarProps) => {
   const incorrectDataLength = tiles.gridList.length > (tiles.gridSizeX * tiles.gridSizeY)
 
   const returnKeyByIndex = (index: string) => {

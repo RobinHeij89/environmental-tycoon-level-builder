@@ -7,3 +7,38 @@
     background-color: #111;
     width: 100vw;
 }
+
+.content{
+    flex: 1;
+     display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+    align-items: stretch;
+    height: 100vh;
+    background-color: #111;
+    width: 100%;
+}
+
+.sidebar{
+    flex: 0;
+    background-color: #333;
+    color: #fff;
+    overflow: hidden;
+    transition: flex 0.5s;
+
+    .content{
+      position: absolute;
+      width: 320px;
+      min-width: 320px;
+      transform:translateX(-320px);
+      transition: transform 0.5s;
+      padding:20px;
+    }
+
+    &.expanded{
+      flex: 0 0 320px;
+      .content{
+        transform:translateX(0px);
+      }
+    }
+}
