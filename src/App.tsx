@@ -12,11 +12,11 @@ function App() {
   const [tileToSet, setTileToSet] = useState<AvailableTileType>();
 
   const [levelsLS, setLevelsLS] = useLocalStorage<LevelTypeLS[]>("levels", []);
-  const [tiles, setTiles] = useState<LevelTypeLS>(levelsLS[0]);
+  const [tiles, setTiles] = useState<LevelTypeLS | null>(levelsLS[0]);
 
   useEffect(() => {
     setLevelsLS(levelsLS.map(level => {
-      if (level.uuid === tiles.uuid) {
+      if (tiles && level.uuid === tiles.uuid) {
         return tiles;
       }
       return level;
@@ -47,7 +47,11 @@ function App() {
     <div className={style.wrapper}>
       <div className={clsx(style.sidebar, (expandedSidebar || !tiles) ? style.expanded : '')}>
         <div className={style.content}>
-          <LocalStorageList levelsLS={levelsLS} setLevelsLS={setLevelsLS as React.Dispatch<SetStateAction<LevelTypeLS[]>>} setTiles={setTiles} />
+          <LocalStorageList
+            levelsLS={levelsLS}
+            setLevelsLS={setLevelsLS as React.Dispatch<SetStateAction<LevelTypeLS[]>>}
+            setTiles={setTiles}
+          />
         </div>
       </div>
       <div className={style.content}>

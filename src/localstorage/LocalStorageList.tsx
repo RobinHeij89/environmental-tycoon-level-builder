@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { LevelTypeLS, TileEnum, TileType } from "../types";
 
-export const LocalStorageList = ({ levelsLS, setLevelsLS, setTiles }: { levelsLS: LevelTypeLS[], setLevelsLS: React.Dispatch<React.SetStateAction<LevelTypeLS[]>>, setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>> }) => {
+export const LocalStorageList = ({ levelsLS, setLevelsLS, setTiles }: { levelsLS: LevelTypeLS[], setLevelsLS: React.Dispatch<React.SetStateAction<LevelTypeLS[]>>, setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS | null>> }) => {
 
   const startNewLevel = () => {
     const newTiles: TileType[] = [];
@@ -33,7 +33,7 @@ export const LocalStorageList = ({ levelsLS, setLevelsLS, setTiles }: { levelsLS
 
   const clearLS = () => {
     if (confirm('Are you sure you want to clear the local storage?')) {
-      setTiles(undefined);
+      setTiles(null);
       setLevelsLS([]);
     }
   }
