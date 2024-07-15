@@ -44,7 +44,7 @@ export const Grid = ({
     Array.from({ length: tiles.gridSizeY }).map((_, y) => {
       Array.from({ length: tiles.gridSizeX }).map((_, x) => {
         const hasTile = tiles.gridList.find(tile => tile.x === x && tile.y === y);
-        !hasTile && newTiles.push({ x, y, type: TileEnum.Grass });
+        !hasTile && newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
       })
     });
     setTiles(old => {
@@ -159,10 +159,15 @@ export const Grid = ({
                 const mouseDownHandlerWithCoords = () => mouseDownHandler({ tileToSet, setStartPos, setIsDragging }, x, newY);
                 const mouseUpHandlerWithCoords = () => mouseUpHandler({ tileToSet, tiles, setStartPos, setEndPos, setIsDragging, endPos, setTiles }, x, newY);
                 const mouseEnterHandlerWithCoords = () => onMouseEnter({ tileToSet, isDragging, startPos, setEndPos, setTiles, tiles }, x, newY);
+
+                const thisTile = tiles.gridList.find(tile => tile.x === x && tile.y === newY);
+
                 return (
                   <Tile
                     showCoords={showCoords}
                     showGrid={showGrid}
+                    showElevation={tileToSet?.type === TileEnum.ElevationUp || tileToSet?.type === TileEnum.ElevationDown}
+                    elevation={thisTile?.type === TileEnum.Grass ? thisTile?.elevation : 0}
                     onMouseDown={mouseDownHandlerWithCoords}
                     onMouseUp={mouseUpHandlerWithCoords}
                     onMouseEnter={mouseEnterHandlerWithCoords}
@@ -170,7 +175,7 @@ export const Grid = ({
                     x={x}
                     y={newY}
                     tileType={
-                      tiles.gridList.find(tile => tile.x === x && tile.y === newY)?.type ?? undefined
+                      thisTile?.type ?? undefined
                     }
                     neighbours={
                       {
@@ -198,8 +203,10 @@ export const Grid = ({
               return Array.from({ length: tiles.gridSizeX }).map((_, x) => {
                 return (
                   <Tile
-                    showCoords={showCoords}
-                    showGrid={showGrid}
+                    showCoords={false}
+                    showGrid={false}
+                    showElevation={false}
+                    elevation={0}
                     key={`${x}${newY}_roads`}
                     x={x}
                     y={newY}
@@ -235,8 +242,10 @@ export const Grid = ({
                 return (
                   <Tile
                     isPreview={tiles.previewTiles?.findIndex(tile => tile.x === x && tile.y === newY) !== -1}
-                    showCoords={showCoords}
-                    showGrid={showGrid}
+                    showCoords={false}
+                    showGrid={false}
+                    showElevation={false}
+                    elevation={0}
                     key={`${x}${newY}_preview`}
                     x={x}
                     y={newY}

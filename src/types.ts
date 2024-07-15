@@ -7,7 +7,9 @@ export enum TileEnum {
   Water = '0',
   Grass = '1',
   Road = '2',
-  Destroy = '3',
+  ElevationUp = '3',
+  ElevationDown = '4',
+  Destroy = '5',
 }
 
 export enum CategoryEnum {
@@ -24,10 +26,26 @@ export type AvailableTileType = {
 }
 
 
+export type TerrainTileConfig = {
+  type: TileEnum.Water | TileEnum.Grass
+  elevation: number
+}
+
+export type RoadTileConfig = {
+  type: TileEnum.Road
+}
+
+export type ToolTileConfig = {
+  type: TileEnum.Destroy | TileEnum.ElevationUp | TileEnum.ElevationDown
+}
+
+export type TileConfig = TerrainTileConfig | RoadTileConfig | ToolTileConfig
+
+
 export type TileTypeEditor = Coord & AvailableTileType;
-export type TileType = Omit<TileTypeEditor, 'category'>
+export type TileType = Omit<TileTypeEditor, 'category' | 'clashingTiles'> & TileConfig
 export type TileTypePreviewEditor = Coord & AvailableTileType & { isValid: boolean };
-export type TileTypePreview = Omit<TileTypePreviewEditor, 'category'>
+export type TileTypePreview = Omit<TileTypePreviewEditor, 'category'> & TileConfig
 
 export type LevelType = {
   gridSizeX: number
@@ -46,5 +64,7 @@ export const availableTiles: AvailableTileType[] = [
   { type: TileEnum.Water, clashingTiles: [TileEnum.Road], category: CategoryEnum.Terrain },
   { type: TileEnum.Grass, category: CategoryEnum.Terrain },
   { type: TileEnum.Road, clashingTiles: [TileEnum.Water], category: CategoryEnum.Road },
+  { type: TileEnum.ElevationUp, category: CategoryEnum.Tool },
+  { type: TileEnum.ElevationDown, category: CategoryEnum.Tool },
   { type: TileEnum.Destroy, category: CategoryEnum.Tool },
 ]

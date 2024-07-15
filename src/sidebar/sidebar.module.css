@@ -49,6 +49,12 @@
     &.destroy{
       background-image: url('./assets/destroy.png');
     }
+    &.elevationup{
+      background-image: url('./assets/elevation-up.png');
+    }
+    &.elevationdown{
+      background-image: url('./assets/elevation-down.png');
+    }
   }
 }
 

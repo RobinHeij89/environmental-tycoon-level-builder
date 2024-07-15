@@ -12,7 +12,7 @@ export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { l
     const newTiles: TileType[] = [];
     Array.from({ length: 16 }).map((_, y) => {
       Array.from({ length: 16 }).map((_, x) => {
-        newTiles.push({ x, y, type: TileEnum.Grass });
+        newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
       })
     });
     const uuid = uuidv4();

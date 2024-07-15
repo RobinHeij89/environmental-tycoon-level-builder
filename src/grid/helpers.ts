@@ -1,4 +1,4 @@
-import { LevelTypeLS, TileType } from "../types"
+import { LevelTypeLS, TileEnum, TileType } from "../types"
 import { GridProps } from "./Grid"
 
 export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>) => {
@@ -35,4 +35,26 @@ export const updateGridTiles = (gridList: TileType[], previewTiles: TileType[], 
     ...newGridList,
     ...previewTiles
   ]
+}
+
+export const updateElevation = (gridList: TileType[], previewTiles: TileType[], action: 'up' | 'down') => {
+
+  return gridList.map(tile => {
+    const previewTile = previewTiles.find(previewTile => previewTile.x === tile.x && previewTile.y === tile.y);
+    if (!previewTile) {
+      return tile;
+    }
+
+    if (action === 'up') {
+      return {
+        ...tile,
+        elevation: (tile.type === TileEnum.Grass || tile.type === TileEnum.Water) ? tile.elevation + 1 : 0
+      }
+    }
+
+    return {
+      ...tile,
+      elevation: (tile.type === TileEnum.Grass || tile.type === TileEnum.Water) ? tile.elevation - 1 : 0
+    }
+  })
 }

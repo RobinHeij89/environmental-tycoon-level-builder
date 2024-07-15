@@ -1,7 +1,7 @@
 import { TileEnum } from "../types";
 import { calculateArea, calculateLine } from "./calculations";
 import { GridProps } from "./Grid";
-import { checkValidTile, updateGridTiles } from "./helpers";
+import { checkValidTile, updateElevation, updateGridTiles } from "./helpers";
 
 export const mouseDownHandler = ({ tileToSet, setStartPos, setIsDragging }: Partial<GridProps>, x: number, y: number) => {
   if (!tileToSet) {
@@ -25,7 +25,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type }]),
+            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type, elevation: -1 }]),
             previewTiles: []
           }
         })
@@ -33,7 +33,23 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type }], true),
+            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type, elevation: -1 }], true),
+            previewTiles: []
+          }
+        })
+      } else if (tileToSet.type === TileEnum.ElevationDown) {
+        setTiles!(old => {
+          return {
+            ...old,
+            gridList: updateElevation(old.gridList, [{ x, y, type: tileToSet.type, elevation: 1 }], 'down'),
+            previewTiles: []
+          }
+        })
+      } else if (tileToSet.type === TileEnum.ElevationUp) {
+        setTiles!(old => {
+          return {
+            ...old,
+            gridList: updateElevation(old.gridList, [{ x, y, type: tileToSet.type, elevation: 1 }], 'up'),
             previewTiles: []
           }
         })
@@ -41,7 +57,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateGridTiles(old.gridList, [{ x, y, type: tileToSet.type }]),
+            gridList: updateGridTiles(old.gridList, [{ x, y, type: tileToSet.type, elevation: 1 }]),
             previewTiles: []
           }
         })
@@ -81,6 +97,22 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
             previewTiles: []
           }
         })
+      } else if (tileToSet.type === TileEnum.ElevationDown) {
+        setTiles!(old => {
+          return {
+            ...old,
+            gridList: updateElevation(old.gridList, old.previewTiles!, 'down'),
+            previewTiles: []
+          }
+        })
+      } else if (tileToSet.type === TileEnum.ElevationUp) {
+        setTiles!(old => {
+          return {
+            ...old,
+            gridList: updateElevation(old.gridList, old.previewTiles!, 'up'),
+            previewTiles: []
+          }
+        })
       } else {
         setTiles!(old => {
           return {
@@ -116,7 +148,7 @@ export const onMouseEnter = ({ tileToSet, isDragging, startPos, setEndPos, setTi
         return {
           ...old,
           previewTiles: [
-            { x, y, type: tileToSet?.type ?? TileEnum.Grass, isValid: checkValidTile({ tileToSet, tiles }, x, y) }
+            { x, y, type: tileToSet?.type ?? TileEnum.Grass, isValid: checkValidTile({ tileToSet, tiles }, x, y), elevation: 1 }
           ]
         }
       }

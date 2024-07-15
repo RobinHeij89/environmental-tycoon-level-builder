@@ -7,10 +7,12 @@ import style from './tile.module.css'
 type TileProps = {
   showCoords: boolean
   showGrid: boolean
+  showElevation: boolean
   onMouseEnter?: () => void
   onMouseDown?: () => void
   onMouseUp?: () => void
   tileType?: TileEnum
+  elevation: number
   x: number
   y: number
   isValid?: boolean
@@ -23,7 +25,7 @@ type TileProps = {
   }
 }
 
-export const Tile = ({ neighbours, onMouseEnter, onMouseDown, onMouseUp, tileType, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
+export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onMouseUp, tileType, elevation, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
   const Dithers = [];
 
   if (tileType === TileEnum.Grass) {
@@ -62,6 +64,7 @@ export const Tile = ({ neighbours, onMouseEnter, onMouseDown, onMouseUp, tileTyp
         </div>
       ))}
       {showCoords && (<span>{x}, {y}</span>)}
+      {showElevation && (<span>{elevation}</span>)}
     </div>
   )
 }
