@@ -2,7 +2,6 @@ import { availableTiles, TileEnum } from "../types";
 
 export const tileEnumToClass = (tileType: TileEnum) => {
   const tiles = Object.keys(TileEnum).map(key => key.toLowerCase());
-  console.log(tiles);
   return tiles[tileType];
 }
 

@@ -87,3 +87,12 @@
   height:var(--dither-width);
   width:var(--dither-height);
 }
+
+.elevation{
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+}

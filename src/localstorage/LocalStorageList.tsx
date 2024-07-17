@@ -21,7 +21,7 @@ export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { l
       displayName: uuid,
       chunkAmount: 2, //pow()
       chunkSize: 4,
-      gridList: newTiles,
+      gridTiles: newTiles,
       roadTiles: [],
       previewTiles: []
     }

@@ -50,7 +50,7 @@ export type TileTypePreview = Omit<TileTypePreviewEditor, 'category'> & TileConf
 export type LevelType = {
   chunkAmount: number
   chunkSize: number
-  gridList: TileType[]
+  gridTiles: TileType[]
   roadTiles: TileType[]
   previewTiles?: TileTypePreview[]
 }

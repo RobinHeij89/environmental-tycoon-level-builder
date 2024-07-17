@@ -41,7 +41,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateElevation(old.gridList, [{ x, y, type: tileToSet.type, elevation: 1 }], 'down'),
+            gridTiles: updateElevation(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1 }], 'down'),
             previewTiles: []
           }
         })
@@ -49,7 +49,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateElevation(old.gridList, [{ x, y, type: tileToSet.type, elevation: 1 }], 'up'),
+            gridTiles: updateElevation(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1 }], 'up'),
             previewTiles: []
           }
         })
@@ -57,7 +57,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateGridTiles(old.gridList, [{ x, y, type: tileToSet.type, elevation: 1 }]),
+            gridTiles: updateGridTiles(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1 }]),
             previewTiles: []
           }
         })
@@ -67,7 +67,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         return {
           ...old,
           gridTiles: [
-            ...old.gridList.filter(tile => tile.x !== x && tile.y !== y),
+            ...old.gridTiles.filter(tile => tile.x !== x && tile.y !== y),
             {
               x,
               y,
@@ -101,7 +101,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateElevation(old.gridList, old.previewTiles!, 'down'),
+            gridTiles: updateElevation(old.gridTiles, old.previewTiles!, 'down'),
             previewTiles: []
           }
         })
@@ -109,7 +109,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateElevation(old.gridList, old.previewTiles!, 'up'),
+            gridTiles: updateElevation(old.gridTiles, old.previewTiles!, 'up'),
             previewTiles: []
           }
         })
@@ -117,7 +117,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridList: updateGridTiles(old.gridList, old.previewTiles!),
+            gridTiles: updateGridTiles(old.gridTiles, old.previewTiles!),
             previewTiles: []
           }
         })

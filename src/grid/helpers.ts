@@ -4,9 +4,11 @@ import { GridProps } from "./Grid"
 export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>) => {
   setTiles(old => {
     const size = old.chunkAmount * old.chunkSize;
+    console.log(size);
+    console.log(old);
     return {
       ...old,
-      gridList: old.gridList.filter(tile => tile.x < size && tile.y < size),
+      gridTiles: old.gridTiles.filter(tile => tile.x < size && tile.y < size),
       roadTiles: old.roadTiles.filter(tile => tile.x < size && tile.y < size)
     }
   })
@@ -15,7 +17,7 @@ export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<
 export const checkValidTile = ({ tileToSet, tiles }: Partial<GridProps>, x: number, y: number) => {
   if (!tileToSet) return false;
 
-  const gridTile = tiles!.gridList.find(tile => tile.x === x && tile.y === y);
+  const gridTile = tiles!.gridTiles.find(tile => tile.x === x && tile.y === y);
   const roadTile = tiles!.roadTiles.find(tile => tile.x === x && tile.y === y);
   if (!gridTile && !roadTile) return false;
 
@@ -26,8 +28,8 @@ export const checkValidTile = ({ tileToSet, tiles }: Partial<GridProps>, x: numb
   return !gridTileClashFound && !roadTileClashFound;
 }
 
-export const updateGridTiles = (gridList: TileType[], previewTiles: TileType[], remove?: boolean) => {
-  const newGridList = gridList.filter(tile => !previewTiles.find(previewTile => previewTile.x === tile.x && previewTile.y === tile.y));
+export const updateGridTiles = (gridTiles: TileType[], previewTiles: TileType[], remove?: boolean) => {
+  const newGridList = gridTiles.filter(tile => !previewTiles.find(previewTile => previewTile.x === tile.x && previewTile.y === tile.y));
   if (remove) {
     return newGridList;
   }
@@ -38,9 +40,9 @@ export const updateGridTiles = (gridList: TileType[], previewTiles: TileType[], 
   ]
 }
 
-export const updateElevation = (gridList: TileType[], previewTiles: TileType[], action: 'up' | 'down') => {
+export const updateElevation = (gridTiles: TileType[], previewTiles: TileType[], action: 'up' | 'down') => {
 
-  return gridList.map(tile => {
+  return gridTiles.map(tile => {
     const previewTile = previewTiles.find(previewTile => previewTile.x === tile.x && previewTile.y === tile.y);
     if (!previewTile) {
       return tile;

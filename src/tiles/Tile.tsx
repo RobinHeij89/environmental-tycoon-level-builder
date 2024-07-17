@@ -64,7 +64,7 @@ export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onM
         </div>
       ))}
       {showCoords && (<span>{x}, {y}</span>)}
-      {showElevation && (<span>{elevation}</span>)}
+      {showElevation && (<span className={style.elevation}>{elevation}</span>)}
     </div>
   )
 }

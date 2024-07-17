@@ -29,7 +29,7 @@ export const Sidebar = ({
   startPos,
   endPos,
 }: SidebarProps) => {
-  const incorrectDataLength = tiles.gridList.length > (Math.pow(tiles.chunkAmount, 2) * tiles.chunkSize)
+  const incorrectDataLength = tiles.gridTiles.length > (Math.pow(tiles.chunkAmount, 2) * Math.pow(tiles.chunkSize, 2))
 
   const returnKeyByIndex = (index: string) => {
     const indexNmbr = parseInt(index, 10)

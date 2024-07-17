@@ -43,17 +43,19 @@ export const Grid = ({
     const newTiles: TileType[] = [];
     Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
       Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
-        const hasTile = tiles.gridList.find(tile => tile.x === x && tile.y === y);
-        !hasTile && newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
+        const hasTile = tiles.gridTiles.find(tile => tile.x === x && tile.y === y);
+        if (!hasTile) {
+          newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
+        } else {
+          newTiles.push(hasTile);
+        }
       })
     });
     setTiles(old => {
       return {
         ...old,
-        gridList: [
-          ...old.gridList,
-          ...newTiles
-        ]
+        gridTiles: newTiles
+
       }
     })
   }
@@ -63,11 +65,34 @@ export const Grid = ({
 
   }, [tiles.chunkAmount, tiles.chunkSize]);
 
+  const chunkify = (gridTiles: TileType[], chunkAmount: number, chunkSize: number) => {
+    const chunks: TileType[][] = [];
+    const size = chunkAmount * chunkSize;
+    Array.from({ length: chunkAmount }).map((_, y) => {
+      Array.from({ length: chunkAmount }).map((_, x) => {
+        const chunk: TileType[] = [];
+        Array.from({ length: chunkSize }).map((_, y2) => {
+          Array.from({ length: chunkSize }).map((_, x2) => {
+            const tile = gridTiles.find(tile => tile.x === x * chunkSize + x2 && tile.y === y * chunkSize + y2);
+            if (tile) {
+              chunk.push(tile);
+            }
+          })
+        });
+        chunks.push(chunk);
+      })
+    });
+    return chunks
+  }
+
   const downloadHandler = () => {
     const filename = 'level.json';
     const stipTiles = { ...tiles };
     delete stipTiles.previewTiles;
-    const jsonStr = JSON.stringify(tiles);
+    const jsonStr = JSON.stringify({
+      ...tiles,
+      chunks: chunkify(stipTiles.gridTiles, tiles.chunkAmount, tiles.chunkSize),
+    });
 
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(jsonStr));
@@ -104,7 +129,7 @@ export const Grid = ({
       };
     }
   };
-  const incorrectDataLength = tiles.gridList.length > (Math.pow(tiles.chunkAmount, 2) * tiles.chunkSize);
+  const incorrectDataLength = tiles.gridTiles.length > (Math.pow(tiles.chunkAmount, 2) * Math.pow(tiles.chunkSize, 2))
 
   const onMouseOutGrid = () => {
     setTiles(old => {
@@ -160,7 +185,7 @@ export const Grid = ({
                 const mouseUpHandlerWithCoords = () => mouseUpHandler({ tileToSet, tiles, setStartPos, setEndPos, setIsDragging, endPos, setTiles }, x, newY);
                 const mouseEnterHandlerWithCoords = () => onMouseEnter({ tileToSet, isDragging, startPos, setEndPos, setTiles, tiles }, x, newY);
 
-                const thisTile = tiles.gridList.find(tile => tile.x === x && tile.y === newY);
+                const thisTile = tiles.gridTiles.find(tile => tile.x === x && tile.y === newY);
 
                 return (
                   <Tile
@@ -179,10 +204,10 @@ export const Grid = ({
                     }
                     neighbours={
                       {
-                        top: tiles.gridList.find(tile => tile.x === x && tile.y === newY + 1)?.type,
-                        right: tiles.gridList.find(tile => tile.x === x + 1 && tile.y === newY)?.type,
-                        bottom: tiles.gridList.find(tile => tile.x === x && tile.y === newY - 1)?.type,
-                        left: tiles.gridList.find(tile => tile.x === x - 1 && tile.y === newY)?.type,
+                        top: tiles.gridTiles.find(tile => tile.x === x && tile.y === newY + 1)?.type,
+                        right: tiles.gridTiles.find(tile => tile.x === x + 1 && tile.y === newY)?.type,
+                        bottom: tiles.gridTiles.find(tile => tile.x === x && tile.y === newY - 1)?.type,
+                        left: tiles.gridTiles.find(tile => tile.x === x - 1 && tile.y === newY)?.type,
                       }
                     }
                   />
