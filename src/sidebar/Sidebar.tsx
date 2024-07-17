@@ -1,12 +1,13 @@
 import clsx from 'clsx'
+import { Accordion, AccordionTab } from 'primereact/accordion'
+import { Fieldset } from 'primereact/fieldset'
+import { InputNumber } from 'primereact/inputnumber'
 
 import { removeOutOfBounds } from '../grid/helpers'
 import { Todo } from '../todo/todo'
 import { availableTiles, AvailableTileType, CategoryEnum, Coord, LevelTypeLS, TileEnum } from '../types'
 import style from './sidebar.module.css'
-import { Fieldset } from 'primereact/fieldset'
-import { InputNumber } from 'primereact/inputnumber'
-import { Accordion, AccordionTab } from 'primereact/accordion'
+
 export interface SidebarProps {
   tiles: LevelTypeLS,
   setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>,
@@ -28,7 +29,7 @@ export const Sidebar = ({
   startPos,
   endPos,
 }: SidebarProps) => {
-  const incorrectDataLength = tiles.gridList.length > (tiles.gridSizeX * tiles.gridSizeY)
+  const incorrectDataLength = tiles.gridList.length > (Math.pow(tiles.chunkAmount, 2) * tiles.chunkSize)
 
   const returnKeyByIndex = (index: string) => {
     const indexNmbr = parseInt(index, 10)
@@ -46,8 +47,10 @@ export const Sidebar = ({
         <h1>Level editor</h1>
 
         <Fieldset legend='Grid size' toggleable collapsed>
-          <p>x: <InputNumber value={tiles.gridSizeX} onChange={e => setTiles({ ...tiles, gridSizeX: e.value ?? -1 })} /></p>
-          <p>y: <InputNumber value={tiles.gridSizeY} onChange={e => setTiles({ ...tiles, gridSizeY: e.value ?? -1 })} /></p>
+          <p>Chunk size: <InputNumber value={tiles.chunkSize} onChange={e => setTiles({ ...tiles, chunkSize: e.value ?? -1 })} /></p>
+          <p>Amonut of chunks: <InputNumber value={tiles.chunkAmount} onChange={e => setTiles({ ...tiles, chunkAmount: e.value ?? -1 })} />
+            <br />
+            This number will be multiplied with the power of 2, so this will result in {Math.pow(tiles.chunkAmount, 2)} tiles.</p>
           {incorrectDataLength && (<button onClick={() => removeOutOfBounds(setTiles)}>Remove out of bounds tiles</button>)}
         </Fieldset>
 

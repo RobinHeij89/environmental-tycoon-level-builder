@@ -1,14 +1,14 @@
 import clsx from "clsx";
+import { Button } from "primereact/button";
+import { Checkbox } from "primereact/checkbox";
+import { InputNumber } from "primereact/inputnumber";
+import { InputText } from "primereact/inputtext";
 import { useEffect, useRef, useState } from "react";
 
 import { Tile } from "../tiles/Tile";
 import { AvailableTileType, Coord, LevelTypeLS, TileEnum, TileType } from "../types";
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
-import { InputText } from "primereact/inputtext";
-import { Button } from "primereact/button";
-import { Checkbox } from "primereact/checkbox";
-import { InputNumber } from "primereact/inputnumber";
 
 export interface GridProps {
   tiles: LevelTypeLS,
@@ -41,8 +41,8 @@ export const Grid = ({
 
   const prefillGrid = () => {
     const newTiles: TileType[] = [];
-    Array.from({ length: tiles.gridSizeY }).map((_, y) => {
-      Array.from({ length: tiles.gridSizeX }).map((_, x) => {
+    Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
+      Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
         const hasTile = tiles.gridList.find(tile => tile.x === x && tile.y === y);
         !hasTile && newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
       })
@@ -61,7 +61,7 @@ export const Grid = ({
   useEffect(() => {
     prefillGrid();
 
-  }, [tiles.gridSizeX, tiles.gridSizeY]);
+  }, [tiles.chunkAmount, tiles.chunkSize]);
 
   const downloadHandler = () => {
     const filename = 'level.json';
@@ -104,7 +104,7 @@ export const Grid = ({
       };
     }
   };
-  const incorrectDataLength = tiles.gridList.length > (tiles.gridSizeX * tiles.gridSizeY)
+  const incorrectDataLength = tiles.gridList.length > (Math.pow(tiles.chunkAmount, 2) * tiles.chunkSize);
 
   const onMouseOutGrid = () => {
     setTiles(old => {
@@ -146,16 +146,16 @@ export const Grid = ({
         <div
           className={clsx(style.grid, style.landscape)}
           style={{
-            gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
-            gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
+            gridTemplateColumns: `repeat(${tiles.chunkAmount * tiles.chunkSize}, ${tileSize}px)`,
+            gridTemplateRows: `repeat(${tiles.chunkAmount * tiles.chunkSize}, ${tileSize}px)`,
             gap: showGrid ? 1 : 0
           }}
           onMouseOut={onMouseOutGrid}
         >
           {
-            Array.from({ length: tiles.gridSizeY }).map((_, y) => {
-              const newY = tiles.gridSizeY - y - 1;
-              return Array.from({ length: tiles.gridSizeX }).map((_, x) => {
+            Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
+              const newY = (tiles.chunkAmount * tiles.chunkSize) - y - 1;
+              return Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
                 const mouseDownHandlerWithCoords = () => mouseDownHandler({ tileToSet, setStartPos, setIsDragging }, x, newY);
                 const mouseUpHandlerWithCoords = () => mouseUpHandler({ tileToSet, tiles, setStartPos, setEndPos, setIsDragging, endPos, setTiles }, x, newY);
                 const mouseEnterHandlerWithCoords = () => onMouseEnter({ tileToSet, isDragging, startPos, setEndPos, setTiles, tiles }, x, newY);
@@ -193,14 +193,14 @@ export const Grid = ({
         </div>
 
         <div className={clsx(style.grid, style.roads)} style={{
-          gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
-          gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
+          gridTemplateColumns: `repeat(${tiles.chunkAmount * tiles.chunkSize}, ${tileSize}px)`,
+          gridTemplateRows: `repeat(${tiles.chunkAmount * tiles.chunkSize}, ${tileSize}px)`,
           gap: showGrid ? 1 : 0
         }}>
           {
-            Array.from({ length: tiles.gridSizeY }).map((_, y) => {
-              const newY = tiles.gridSizeY - y - 1;
-              return Array.from({ length: tiles.gridSizeX }).map((_, x) => {
+            Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
+              const newY = (tiles.chunkAmount * tiles.chunkSize) - y - 1;
+              return Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
                 return (
                   <Tile
                     showCoords={false}
@@ -231,14 +231,14 @@ export const Grid = ({
 
 
         <div className={clsx(style.grid, style.preview)} style={{
-          gridTemplateColumns: `repeat(${tiles.gridSizeX}, ${tileSize}px)`,
-          gridTemplateRows: `repeat(${tiles.gridSizeY}, ${tileSize}px)`,
+          gridTemplateColumns: `repeat(${tiles.chunkAmount * tiles.chunkSize}, ${tileSize}px)`,
+          gridTemplateRows: `repeat(${tiles.chunkAmount * tiles.chunkSize}, ${tileSize}px)`,
           gap: showGrid ? 1 : 0
         }}>
           {
-            Array.from({ length: tiles.gridSizeY }).map((_, y) => {
-              const newY = tiles.gridSizeY - y - 1;
-              return Array.from({ length: tiles.gridSizeX }).map((_, x) => {
+            Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
+              const newY = (tiles.chunkAmount * tiles.chunkSize) - y - 1;
+              return Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
                 return (
                   <Tile
                     isPreview={tiles.previewTiles?.findIndex(tile => tile.x === x && tile.y === newY) !== -1}

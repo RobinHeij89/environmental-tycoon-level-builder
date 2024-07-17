@@ -1,12 +1,13 @@
-import MD5 from "crypto-js/md5";
-import { useState } from "react";
 import 'primereact/resources/themes/bootstrap4-dark-purple/theme.css'; //theme
 import 'primereact/resources/primereact.min.css'; //core css
 
+import MD5 from "crypto-js/md5";
 import { Button } from 'primereact/button';
-import App from "./App";
-import { InputText } from "primereact/inputtext";
 import { Card } from "primereact/card";
+import { InputText } from "primereact/inputtext";
+import { useState } from "react";
+
+import App from "./App";
 
 export const Login = () => {
   const [isVerified, setIsVerified] = useState(false);

@@ -1,10 +1,10 @@
+import { Button } from 'primereact/button';
+import { Divider } from 'primereact/divider';
+import { Fieldset } from 'primereact/fieldset';
+import { ListBox } from 'primereact/listbox';
 import { v4 as uuidv4 } from 'uuid';
 
 import { LevelTypeLS, TileEnum, TileType } from "../types";
-import { Button } from 'primereact/button';
-import { ListBox } from 'primereact/listbox';
-import { Divider } from 'primereact/divider';
-import { Fieldset } from 'primereact/fieldset';
 
 export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { levelsLS: LevelTypeLS[], setLevelsLS: React.Dispatch<React.SetStateAction<LevelTypeLS[]>>, tiles: LevelTypeLS | null, setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS | null>> }) => {
 
@@ -19,8 +19,8 @@ export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { l
     const newLevel: LevelTypeLS = {
       uuid: uuid,
       displayName: uuid,
-      gridSizeX: 16,
-      gridSizeY: 16,
+      chunkAmount: 2, //pow()
+      chunkSize: 4,
       gridList: newTiles,
       roadTiles: [],
       previewTiles: []

@@ -3,10 +3,11 @@ import { GridProps } from "./Grid"
 
 export const removeOutOfBounds = (setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>) => {
   setTiles(old => {
+    const size = old.chunkAmount * old.chunkSize;
     return {
       ...old,
-      gridList: old.gridList.filter(tile => tile.x < old.gridSizeX && tile.y < old.gridSizeY),
-      roadTiles: old.roadTiles.filter(tile => tile.x < old.gridSizeX && tile.y < old.gridSizeY)
+      gridList: old.gridList.filter(tile => tile.x < size && tile.y < size),
+      roadTiles: old.roadTiles.filter(tile => tile.x < size && tile.y < size)
     }
   })
 }

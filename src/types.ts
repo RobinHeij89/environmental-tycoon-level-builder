@@ -48,8 +48,8 @@ export type TileTypePreviewEditor = Coord & AvailableTileType & { isValid: boole
 export type TileTypePreview = Omit<TileTypePreviewEditor, 'category'> & TileConfig
 
 export type LevelType = {
-  gridSizeX: number
-  gridSizeY: number
+  chunkAmount: number
+  chunkSize: number
   gridList: TileType[]
   roadTiles: TileType[]
   previewTiles?: TileTypePreview[]
