@@ -67,7 +67,6 @@ export const Grid = ({
 
   const chunkify = (gridTiles: TileType[], chunkAmount: number, chunkSize: number) => {
     const chunks: TileType[][] = [];
-    const size = chunkAmount * chunkSize;
     Array.from({ length: chunkAmount }).map((_, y) => {
       Array.from({ length: chunkAmount }).map((_, x) => {
         const chunk: TileType[] = [];

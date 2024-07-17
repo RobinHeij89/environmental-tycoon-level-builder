@@ -63,21 +63,21 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         })
       }
 
-      setTiles!(old => {
-        return {
-          ...old,
-          gridTiles: [
-            ...old.gridTiles.filter(tile => tile.x !== x && tile.y !== y),
-            {
-              x,
-              y,
-              type: tileToSet!.type,
-              isValid
-            }
-          ],
-          previewTiles: []
-        }
-      })
+      // setTiles!(old => {
+      //   return {
+      //     ...old,
+      //     gridTiles: [
+      //       ...old.gridTiles.filter(tile => tile.x !== x && tile.y !== y),
+      //       {
+      //         x,
+      //         y,
+      //         type: tileToSet.type,
+      //         isValid
+      //       }
+      //     ],
+      //     previewTiles: []
+      //   }
+      // })
     }
   } else {
     if (tiles!.previewTiles?.findIndex(tile => !tile.isValid) === -1) {
