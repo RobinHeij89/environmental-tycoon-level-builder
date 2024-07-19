@@ -39,6 +39,52 @@
     }
     &.grass{
       background-image: url('./assets/grass-base.png');
+      &.water-top{
+        background-image: url('./assets/grass/Grass-base-T.png');
+      }
+      &.water-bottom{
+        background-image: url('./assets/grass/Grass-base-B.png');
+      }
+      &.water-left{
+        background-image: url('./assets/grass/Grass-base-L.png');
+      }
+      &.water-right{
+        background-image: url('./assets/grass/Grass-base-R.png');
+      }
+      &.water-top-left{
+        background-image: url('./assets/grass/Grass-base-TL.png');
+      }
+      &.water-top-right{
+        background-image: url('./assets/grass/Grass-base-TR.png');
+      }
+      &.water-bottom-left{
+        background-image: url('./assets/grass/Grass-base-BL.png');
+      }
+      &.water-bottom-right{
+        background-image: url('./assets/grass/Grass-base-BR.png');
+      }
+      &.water-top-bottom{
+        background-image: url('./assets/grass/Grass-base-V.png');
+      }
+      &.water-left-right{
+        background-image: url('./assets/grass/Grass-base-H.png');
+      } 
+      &.water-top-left-right{
+        background-image: url('./assets/grass/Grass-base-LTR.png');
+      }
+      &.water-top-left-bottom{
+        background-image: url('./assets/grass/Grass-base-TLB.png');
+      }
+      &.water-top-right-bottom{
+        background-image: url('./assets/grass/Grass-base-TRB.png');
+      }
+      &.water-left-right-bottom{
+        background-image: url('./assets/grass/Grass-base-LBR.png');
+      }
+      &.water-top-left-right-bottom{
+        background-image: url('./assets/grass/Grass-base-single.png');
+      }
+
     }
     &.road{
       background-image: url('./assets/road.png');
@@ -55,38 +101,6 @@
   }
 }
 
-.sand{
-  position: absolute;
-  background: yellow;
-}
-
-.water-top{
-  top: 0;
-  left:0;
-  width:var(--dither-width);
-  height:var(--dither-height);
-}
-
-.water-bottom{
-  bottom: 0;
-  left:0;
-  width:var(--dither-width);
-  height:var(--dither-height);
-}
-
-.water-left{
-  top: 0;
-  left:0;
-  height:var(--dither-width);
-  width:var(--dither-height);
-}
-
-.water-right{
-  top: 0;
-  right:0;
-  height:var(--dither-width);
-  width:var(--dither-height);
-}
 
 .elevation{
   display: grid;

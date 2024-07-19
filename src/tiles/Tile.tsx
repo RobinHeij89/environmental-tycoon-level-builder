@@ -29,17 +29,33 @@ export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onM
   const Dithers = [];
 
   if (tileType === TileEnum.Grass) {
-    if (neighbours.top === TileEnum.Water) {
-      Dithers.push(<div className={clsx(style.sand, style['water-top'])} />);
-    }
-    if (neighbours.right === TileEnum.Water) {
-      Dithers.push(<div className={clsx(style.sand, style['water-right'])} />);
-    }
-    if (neighbours.bottom === TileEnum.Water) {
-      Dithers.push(<div className={clsx(style.sand, style['water-bottom'])} />);
-    }
-    if (neighbours.left === TileEnum.Water) {
-      Dithers.push(<div className={clsx(style.sand, style['water-left'])} />);
+
+    if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
+      Dithers.push(style['water-top-left-right-bottom']);
+    } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
+      Dithers.push(style['water-top-left-bottom']);
+    } else if (neighbours.top === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
+      Dithers.push(style['water-top-right-bottom']);
+    } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water) {
+      Dithers.push(style['water-top-left-right']);
+    } else if (neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
+      Dithers.push(style['water-left-right-bottom']);
+    } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water) {
+      Dithers.push(style['water-top-left']);
+    } else if (neighbours.top === TileEnum.Water && neighbours.right === TileEnum.Water) {
+      Dithers.push(style['water-top-right']);
+    } else if (neighbours.bottom === TileEnum.Water && neighbours.right === TileEnum.Water) {
+      Dithers.push(style['water-bottom-right']);
+    } else if (neighbours.top === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
+      Dithers.push(style['water-top-bottom']);
+    } else if (neighbours.top === TileEnum.Water) {
+      Dithers.push(style['water-top']);
+    } else if (neighbours.right === TileEnum.Water) {
+      Dithers.push(style['water-right']);
+    } else if (neighbours.bottom === TileEnum.Water) {
+      Dithers.push(style['water-bottom']);
+    } else if (neighbours.left === TileEnum.Water) {
+      Dithers.push(style['water-left']);
     }
   }
 
@@ -51,18 +67,19 @@ export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onM
           showGrid ? style['show-grid'] : '',
           tileType ? style[tileEnumToClass(tileType ?? TileEnum.Grass)] : '',
           isValid ? style.valid : style.invalid,
-          isPreview ? style.preview : ''
+          isPreview ? style.preview : '',
+          ...Dithers
         )
       }
       onMouseDown={onMouseDown}
       onMouseUp={onMouseUp}
       onMouseEnter={onMouseEnter}
     >
-      {Dithers.map((dither, index) => (
+      {/* {Dithers.map((dither, index) => (
         <div key={index} className={style.dither}>
           {dither}
         </div>
-      ))}
+      ))} */}
       {showCoords && (<span>{x}, {y}</span>)}
       {showElevation && (<span className={style.elevation}>{elevation}</span>)}
     </div>
