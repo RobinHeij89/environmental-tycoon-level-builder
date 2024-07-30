@@ -7,6 +7,7 @@ import { removeOutOfBounds } from '../grid/helpers'
 import { Todo } from '../todo/todo'
 import { availableTiles, AvailableTileType, CategoryEnum, Coord, LevelTypeLS, TileEnum } from '../types'
 import style from './sidebar.module.css'
+import { chunkify } from '../grid/Grid'
 
 export interface SidebarProps {
   tiles: LevelTypeLS,
@@ -130,7 +131,13 @@ export const Sidebar = ({
         <Accordion activeIndex={-1}>
           <AccordionTab header="Code">
             <pre className={style.pre}>
-              {JSON.stringify(tiles, null, 2)}
+              {JSON.stringify({
+                chunkAmount: tiles.chunkAmount,
+                chunkSize: tiles.chunkSize,
+                uuid: tiles.uuid,
+                displayName: tiles.displayName,
+                chunks: chunkify(tiles.gridTiles, tiles.chunkAmount, tiles.chunkSize)
+              }, null, 2)}
             </pre>
           </AccordionTab>
         </Accordion>

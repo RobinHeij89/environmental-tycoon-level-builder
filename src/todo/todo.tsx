@@ -5,6 +5,7 @@ export const Todo = () => {
       <ul className={style.list}>
         <li>Change the render method, instead of rendering everything, maybe only render tiles different than grass, and add a big element as background.</li>
         <li>Change way of showing grid</li>
+        <li>Make sure the roadTiles and future stuff is in the chunk, not just the terrain</li>
         <li>highlight/outline chunks</li>
         <li>Make sure the roads are connected when possible, different sprites</li>
         <li>Add buildings (with even more tiles)</li>

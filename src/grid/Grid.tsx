@@ -10,6 +10,25 @@ import { AvailableTileType, Coord, LevelTypeLS, TileEnum, TileType } from "../ty
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
 
+export const chunkify = (gridTiles: TileType[], chunkAmount: number, chunkSize: number) => {
+  const chunks: Array<{ terrainTiles: TileType[] }> = [];
+  Array.from({ length: chunkAmount }).map((_, y) => {
+    Array.from({ length: chunkAmount }).map((_, x) => {
+      const chunk: { terrainTiles: TileType[] } = { terrainTiles: [] };
+      Array.from({ length: chunkSize }).map((_, y2) => {
+        Array.from({ length: chunkSize }).map((_, x2) => {
+          const reversedY = chunkSize - y2 - 1;
+          const tile = gridTiles.find(tile => tile.x === x * chunkSize + x2 && tile.y === y * chunkSize + reversedY);
+          if (tile) {
+            chunk.terrainTiles.push(tile);
+          }
+        })
+      });
+      chunks.push(chunk);
+    })
+  });
+  return chunks
+}
 export interface GridProps {
   tiles: LevelTypeLS,
   setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>,
@@ -38,7 +57,6 @@ export const Grid = ({
   const [showGrid, setShowGrid] = useState<boolean>(true);
   const [tileSize, setTileSize] = useState<number>(44);
 
-
   const prefillGrid = () => {
     const newTiles: TileType[] = [];
     Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
@@ -62,35 +80,16 @@ export const Grid = ({
 
   useEffect(() => {
     prefillGrid();
-
   }, [tiles.chunkAmount, tiles.chunkSize]);
-
-  const chunkify = (gridTiles: TileType[], chunkAmount: number, chunkSize: number) => {
-    const chunks: TileType[][] = [];
-    Array.from({ length: chunkAmount }).map((_, y) => {
-      Array.from({ length: chunkAmount }).map((_, x) => {
-        const chunk: TileType[] = [];
-        Array.from({ length: chunkSize }).map((_, y2) => {
-          Array.from({ length: chunkSize }).map((_, x2) => {
-            const tile = gridTiles.find(tile => tile.x === x * chunkSize + x2 && tile.y === y * chunkSize + y2);
-            if (tile) {
-              chunk.push(tile);
-            }
-          })
-        });
-        chunks.push(chunk);
-      })
-    });
-    return chunks
-  }
 
   const downloadHandler = () => {
     const filename = 'level.json';
-    const stipTiles = { ...tiles };
-    delete stipTiles.previewTiles;
     const jsonStr = JSON.stringify({
-      ...tiles,
-      chunks: chunkify(stipTiles.gridTiles, tiles.chunkAmount, tiles.chunkSize),
+      chunkAmount: tiles.chunkAmount,
+      chunkSize: tiles.chunkSize,
+      uuid: tiles.uuid,
+      displayName: tiles.displayName,
+      chunks: chunkify(tiles.gridTiles, tiles.chunkAmount, tiles.chunkSize)
     });
 
     const element = document.createElement('a');
