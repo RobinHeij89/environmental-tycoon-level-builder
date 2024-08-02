@@ -10,22 +10,39 @@ import { AvailableTileType, Coord, LevelTypeLS, TileEnum, TileType } from "../ty
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
 
+type ChunkExportType = {
+  terrainTiles: TileType[]
+  x: number
+  y: number
+}
 export const chunkify = (gridTiles: TileType[], chunkAmount: number, chunkSize: number) => {
-  const chunks: Array<{ terrainTiles: TileType[] }> = [];
+  const chunks: ChunkExportType[] = [];
   Array.from({ length: chunkAmount }).map((_, y) => {
     Array.from({ length: chunkAmount }).map((_, x) => {
-      const chunk: { terrainTiles: TileType[] } = { terrainTiles: [] };
+      const chunk: ChunkExportType = { terrainTiles: [], x, y };
       Array.from({ length: chunkSize }).map((_, y2) => {
         Array.from({ length: chunkSize }).map((_, x2) => {
-          const reversedY = chunkSize - y2 - 1;
-          const tile = gridTiles.find(tile => tile.x === x * chunkSize + x2 && tile.y === y * chunkSize + reversedY);
+          const tile = gridTiles.find(tile => tile.x === x * chunkSize + x2 && tile.y === y * chunkSize + y2);
           if (tile) {
             chunk.terrainTiles.push(tile);
           }
         })
       });
+      chunk.terrainTiles.sort((a, b) => {
+        if (a.y === b.y) {
+          return a.x - b.x;
+        }
+        return a.y - b.y;
+      });
+
       chunks.push(chunk);
     })
+  });
+  chunks.sort((a, b) => {
+    if (a.y === b.y) {
+      return a.x - b.x;
+    }
+    return a.y - b.y;
   });
   return chunks
 }
