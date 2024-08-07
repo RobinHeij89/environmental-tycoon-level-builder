@@ -25,7 +25,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type, elevation: -1 }]),
+            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type, elevation: -1, treeHM: -1 }]),
             previewTiles: []
           }
         })
@@ -33,7 +33,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type, elevation: -1 }], true),
+            roadTiles: updateGridTiles(old.roadTiles, [{ x, y, type: tileToSet.type, elevation: -1, treeHM: -1 }], true),
             previewTiles: []
           }
         })
@@ -41,7 +41,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridTiles: updateElevation(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1 }], 'down'),
+            gridTiles: updateElevation(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1, treeHM: -1 }], 'down'),
             previewTiles: []
           }
         })
@@ -49,7 +49,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridTiles: updateElevation(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1 }], 'up'),
+            gridTiles: updateElevation(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1, treeHM: -1 }], 'up'),
             previewTiles: []
           }
         })
@@ -57,7 +57,7 @@ export const mouseUpHandler = ({ tileToSet, tiles, setStartPos, setEndPos, setIs
         setTiles!(old => {
           return {
             ...old,
-            gridTiles: updateGridTiles(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1 }]),
+            gridTiles: updateGridTiles(old.gridTiles, [{ x, y, type: tileToSet.type, elevation: 1, treeHM: -1 }]),
             previewTiles: []
           }
         })
@@ -148,7 +148,7 @@ export const onMouseEnter = ({ tileToSet, isDragging, startPos, setEndPos, setTi
         return {
           ...old,
           previewTiles: [
-            { x, y, type: tileToSet?.type ?? TileEnum.Grass, isValid: checkValidTile({ tileToSet, tiles }, x, y), elevation: 1 }
+            { x, y, type: tileToSet?.type ?? TileEnum.Grass, isValid: checkValidTile({ tileToSet, tiles }, x, y), elevation: 1, treeHM: -1 }
           ]
         }
       }

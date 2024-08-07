@@ -38,7 +38,8 @@ export const calculateArea = ({ setTiles, tileToSet, tiles }: Partial<GridProps>
           ...coord,
           type: tileToSet!.type,
           isValid: checkValidTile({ tileToSet, tiles }, coord.x, coord.y),
-          elevation: 1
+          elevation: 1,
+          treeHM: -1
         }
       })
     }
@@ -112,7 +113,8 @@ export const calculateLine = ({ setTiles, tileToSet, tiles }: Partial<GridProps>
       ...coord,
       type: tileToSet!.type,
       isValid: checkValidTile({ tileToSet, tiles }, coord.x, coord.y),
-      elevation: 1
+      elevation: 1,
+      treeHM: -1
     }
   })
 
