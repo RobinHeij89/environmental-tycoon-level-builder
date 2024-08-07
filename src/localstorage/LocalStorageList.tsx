@@ -16,7 +16,7 @@ export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { l
     const newTiles: TileType[] = [];
     Array.from({ length: 16 }).map((_, y) => {
       Array.from({ length: 16 }).map((_, x) => {
-        const treeHM = Math.floor(noise.simplex2(x / 100, y / 100) * multiplier + multiplier);
+        const treeHM = Math.floor(noise.perlin2(x / 100, y / 100) * multiplier + multiplier);
         newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1, treeHM: treeHM });
       })
     });

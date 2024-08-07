@@ -78,8 +78,12 @@ export const Grid = ({
   const [showGrid, setShowGrid] = useState<boolean>(true);
   const [showTreeHM, setShowTreeHM] = useState<boolean>(true);
   const [tileSize, setTileSize] = useState<number>(44);
+  const [noise, setNoise] = useState<any>(new Perlin(seed));
 
-  const noise = new Perlin(seed);
+  useEffect(() => {
+    setNoise(new Perlin(seed));
+  }, [seed]);
+
   const multiplier = 5;
 
   const prefillGrid = () => {
@@ -87,7 +91,7 @@ export const Grid = ({
     Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
       Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
         const hasTile = tiles.gridTiles.find(tile => tile.x === x && tile.y === y);
-        const treeHM = Math.floor(noise.simplex2(x / 100, y / 100) * multiplier + multiplier);
+        const treeHM = Math.floor(noise.perlin2(x / 50, y / 50) * multiplier + multiplier);
 
         if (!hasTile) {
           newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1, treeHM: treeHM });
@@ -166,7 +170,19 @@ export const Grid = ({
   }
 
   const changeSeedHandler = () => {
-    alert('WOTK')
+    setTiles(old => {
+      return {
+        ...old,
+        treeSeed: Math.floor(Math.random() * 65535) + 1,
+        gridTiles: old.gridTiles.map(tile => {
+          const treeHM = Math.floor(noise.perlin2(tile.x / 50, tile.y / 50) * multiplier + multiplier);
+          return {
+            ...tile,
+            treeHM: treeHM
+          }
+        })
+      }
+    })
   }
 
   return (
@@ -182,7 +198,7 @@ export const Grid = ({
           <div className={style.divider} />
           <div>
             <b>Change tree seed</b><br />
-            <Button onClick={changeSeedHandler}>Change Seed</Button>
+            <Button onClick={changeSeedHandler}>Change Seed ({seed})</Button>
           </div>
         </div>
         <div>
