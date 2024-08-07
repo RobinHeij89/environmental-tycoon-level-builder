@@ -5,20 +5,26 @@ import { ListBox } from 'primereact/listbox';
 import { v4 as uuidv4 } from 'uuid';
 
 import { LevelTypeLS, TileEnum, TileType } from "../types";
+import Perlin from '../perlin';
 
 export const LocalStorageList = ({ levelsLS, setLevelsLS, tiles, setTiles }: { levelsLS: LevelTypeLS[], setLevelsLS: React.Dispatch<React.SetStateAction<LevelTypeLS[]>>, tiles: LevelTypeLS | null, setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS | null>> }) => {
+  const seed = Math.floor(Math.random() * 65535) + 1;
+  const noise = new Perlin(seed);
+  const multiplier = 5;
 
   const startNewLevel = () => {
     const newTiles: TileType[] = [];
     Array.from({ length: 16 }).map((_, y) => {
       Array.from({ length: 16 }).map((_, x) => {
-        newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
+        const treeHM = Math.floor(noise.simplex2(x / 100, y / 100) * multiplier + multiplier);
+        newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1, treeHM: treeHM });
       })
     });
     const uuid = uuidv4();
     const newLevel: LevelTypeLS = {
       uuid: uuid,
       displayName: uuid,
+      treeSeed: seed,
       chunkAmount: 2, //pow()
       chunkSize: 4,
       gridTiles: newTiles,

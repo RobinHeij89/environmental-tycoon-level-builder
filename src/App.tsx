@@ -10,7 +10,6 @@ import { AvailableTileType, Coord, type LevelTypeLS } from './types';
 
 function App() {
   const [tileToSet, setTileToSet] = useState<AvailableTileType>();
-
   const [levelsLS, setLevelsLS] = useLocalStorage<LevelTypeLS[]>("levels", []);
   const [tiles, setTiles] = useState<LevelTypeLS | null>(levelsLS[0]);
 
@@ -60,6 +59,7 @@ function App() {
           <>
             <Grid
               {...throughProps as GridProps}
+              seed={tiles.treeSeed}
             />
             <Sidebar
               {...throughProps as SidebarProps}

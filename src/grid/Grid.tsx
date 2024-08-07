@@ -10,6 +10,8 @@ import { AvailableTileType, Coord, LevelTypeLS, TileEnum, TileType } from "../ty
 import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
 
+import Perlin from '../perlin';
+
 type ChunkExportType = {
   terrainTiles: TileType[]
   x: number
@@ -47,6 +49,7 @@ export const chunkify = (gridTiles: TileType[], chunkAmount: number, chunkSize: 
   return chunks
 }
 export interface GridProps {
+  seed: number,
   tiles: LevelTypeLS,
   setTiles: React.Dispatch<React.SetStateAction<LevelTypeLS>>,
   tileToSet: AvailableTileType | undefined,
@@ -68,19 +71,26 @@ export const Grid = ({
   isDragging, setIsDragging,
   startPos, setStartPos,
   endPos, setEndPos,
-  expandedSidebar, setExpandedSidebar
+  expandedSidebar, setExpandedSidebar,
+  seed
 }: GridProps) => {
   const [showCoords, setShowCoords] = useState<boolean>(false);
   const [showGrid, setShowGrid] = useState<boolean>(true);
+  const [showTreeHM, setShowTreeHM] = useState<boolean>(true);
   const [tileSize, setTileSize] = useState<number>(44);
+
+  const noise = new Perlin(seed);
+  const multiplier = 5;
 
   const prefillGrid = () => {
     const newTiles: TileType[] = [];
     Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, y) => {
       Array.from({ length: tiles.chunkAmount * tiles.chunkSize }).map((_, x) => {
         const hasTile = tiles.gridTiles.find(tile => tile.x === x && tile.y === y);
+        const treeHM = Math.floor(noise.simplex2(x / 100, y / 100) * multiplier + multiplier);
+
         if (!hasTile) {
-          newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1 });
+          newTiles.push({ x, y, type: TileEnum.Grass, elevation: 1, treeHM: treeHM });
         } else {
           newTiles.push(hasTile);
         }
@@ -154,6 +164,11 @@ export const Grid = ({
       }
     })
   }
+
+  const changeSeedHandler = () => {
+    alert('WOTK')
+  }
+
   return (
     <div className={style.wrapper}>
       <div className={clsx(style.bar, style.topbar)}>
@@ -164,7 +179,11 @@ export const Grid = ({
             }
           </Button>
           <InputText type="text" value={tiles.displayName} onChange={e => setTiles({ ...tiles, displayName: e.target.value })} />
-
+          <div className={style.divider} />
+          <div>
+            <b>Change tree seed</b><br />
+            <Button onClick={changeSeedHandler}>Change Seed</Button>
+          </div>
         </div>
         <div>
           <div>
@@ -206,8 +225,10 @@ export const Grid = ({
                   <Tile
                     showCoords={showCoords}
                     showGrid={showGrid}
+                    showTreeHM={showTreeHM}
                     showElevation={tileToSet?.type === TileEnum.ElevationUp || tileToSet?.type === TileEnum.ElevationDown}
                     elevation={thisTile?.type === TileEnum.Grass ? thisTile?.elevation : 0}
+                    treeHM={thisTile?.type === TileEnum.Grass ? thisTile?.treeHM : 0}
                     onMouseDown={mouseDownHandlerWithCoords}
                     onMouseUp={mouseUpHandlerWithCoords}
                     onMouseEnter={mouseEnterHandlerWithCoords}
@@ -245,8 +266,10 @@ export const Grid = ({
                   <Tile
                     showCoords={false}
                     showGrid={false}
+                    showTreeHM={false}
                     showElevation={false}
                     elevation={0}
+                    treeHM={0}
                     key={`${x}${newY}_roads`}
                     x={x}
                     y={newY}
@@ -283,9 +306,11 @@ export const Grid = ({
                   <Tile
                     isPreview={tiles.previewTiles?.findIndex(tile => tile.x === x && tile.y === newY) !== -1}
                     showCoords={false}
+                    showTreeHM={false}
                     showGrid={false}
                     showElevation={false}
                     elevation={0}
+                    treeHM={0}
                     key={`${x}${newY}_preview`}
                     x={x}
                     y={newY}
@@ -326,6 +351,17 @@ export const Grid = ({
               checked={showCoords}
               onChange={() => setShowCoords(!showCoords)}
             ></Checkbox>
+          </label>
+          <div className={style.divider} />
+
+          <label>
+            <b>Show tree heightmap</b><br />
+
+            <Checkbox
+              checked={showTreeHM}
+              onChange={() => setShowTreeHM(!showTreeHM)}
+            ></Checkbox>
+
           </label>
           <div className={style.divider} />
           <label>

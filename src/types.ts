@@ -29,6 +29,7 @@ export type AvailableTileType = {
 export type TerrainTileConfig = {
   type: TileEnum.Water | TileEnum.Grass
   elevation: number
+  treeHM: number
 }
 
 export type RoadTileConfig = {
@@ -58,6 +59,7 @@ export type LevelType = {
 export type LevelTypeLS = LevelType & {
   uuid: string
   displayName: string
+  treeSeed: number
 }
 
 export const availableTiles: AvailableTileType[] = [

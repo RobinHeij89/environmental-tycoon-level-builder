@@ -7,12 +7,14 @@ import style from './tile.module.css'
 type TileProps = {
   showCoords: boolean
   showGrid: boolean
+  showTreeHM: boolean
   showElevation: boolean
   onMouseEnter?: () => void
   onMouseDown?: () => void
   onMouseUp?: () => void
   tileType?: TileEnum
   elevation: number
+  treeHM: number
   x: number
   y: number
   isValid?: boolean
@@ -25,11 +27,12 @@ type TileProps = {
   }
 }
 
-export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onMouseUp, tileType, elevation, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
+export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onMouseUp, showTreeHM, treeHM, tileType, elevation, x, y, isValid = true, showCoords = false, showGrid = true, isPreview = false }: TileProps) => {
   const Dithers = [];
 
   if (tileType === TileEnum.Grass) {
 
+    // TODO: fix this
     if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
       Dithers.push(style['water-top-left-right-bottom']);
     } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
@@ -81,6 +84,7 @@ export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onM
         </div>
       ))} */}
       {showCoords && (<span>{x}, {y}</span>)}
+      {showTreeHM && (<span className={style.tree} style={{ opacity: treeHM / 10 }}>{treeHM}</span>)}
       {showElevation && (<span className={style.elevation}>{elevation}</span>)}
     </div>
   )
