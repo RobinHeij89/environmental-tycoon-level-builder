@@ -11,6 +11,7 @@ export const Todo = () => {
         <li>Add buildings (with even more tiles)</li>
         <li>Remove buildings</li>
         <li>Show biome specific assets</li>
+        <li>Add trees to the chunks export</li>
         <hr />
         <li><s>Change grid to chunk, and add option to add more chunks</s></li>
         <li><s>Incorporate elevation, (make sure we don't get cliffs ?)</s></li>
