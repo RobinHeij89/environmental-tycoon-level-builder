@@ -24,6 +24,10 @@ type TileProps = {
     right?: TileEnum
     bottom?: TileEnum
     left?: TileEnum
+    topRight?: TileEnum
+    topLeft?: TileEnum
+    bottomRight?: TileEnum
+    bottomLeft?: TileEnum
   }
 }
 
@@ -31,35 +35,145 @@ export const Tile = ({ showElevation, neighbours, onMouseEnter, onMouseDown, onM
   const Dithers = [];
 
   if (tileType === TileEnum.Grass) {
-
-    // TODO: fix this
-    if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
+    // Quadruple tiles
+    if (
+      neighbours.top === TileEnum.Water &&
+      neighbours.right === TileEnum.Water &&
+      neighbours.bottom === TileEnum.Water &&
+      neighbours.left === TileEnum.Water
+    ) {
       Dithers.push(style['water-top-left-right-bottom']);
-    } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
-      Dithers.push(style['water-top-left-bottom']);
-    } else if (neighbours.top === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
-      Dithers.push(style['water-top-right-bottom']);
-    } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water) {
-      Dithers.push(style['water-top-left-right']);
-    } else if (neighbours.left === TileEnum.Water && neighbours.right === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
-      Dithers.push(style['water-left-right-bottom']);
-    } else if (neighbours.top === TileEnum.Water && neighbours.left === TileEnum.Water) {
-      Dithers.push(style['water-top-left']);
-    } else if (neighbours.top === TileEnum.Water && neighbours.right === TileEnum.Water) {
-      Dithers.push(style['water-top-right']);
-    } else if (neighbours.bottom === TileEnum.Water && neighbours.right === TileEnum.Water) {
-      Dithers.push(style['water-bottom-right']);
-    } else if (neighbours.top === TileEnum.Water && neighbours.bottom === TileEnum.Water) {
-      Dithers.push(style['water-top-bottom']);
-    } else if (neighbours.top === TileEnum.Water) {
-      Dithers.push(style['water-top']);
-    } else if (neighbours.right === TileEnum.Water) {
-      Dithers.push(style['water-right']);
-    } else if (neighbours.bottom === TileEnum.Water) {
-      Dithers.push(style['water-bottom']);
-    } else if (neighbours.left === TileEnum.Water) {
-      Dithers.push(style['water-left']);
-    }
+    } else
+      // corner tiles
+      if (
+        neighbours.top !== TileEnum.Water &&
+        neighbours.right !== TileEnum.Water &&
+        neighbours.topRight == TileEnum.Water
+      ) {
+        Dithers.push(style['water-corner-top-right']);
+      } else if (
+        neighbours.top !== TileEnum.Water &&
+        neighbours.left !== TileEnum.Water &&
+        neighbours.topLeft == TileEnum.Water
+      ) {
+        Dithers.push(style['water-corner-top-left']);
+      } else if (
+        neighbours.bottom !== TileEnum.Water &&
+        neighbours.left !== TileEnum.Water &&
+        neighbours.bottomLeft == TileEnum.Water
+      ) {
+        Dithers.push(style['water-corner-bottom-left']);
+      } else if (
+        neighbours.bottom !== TileEnum.Water &&
+        neighbours.right !== TileEnum.Water &&
+        neighbours.bottomRight == TileEnum.Water
+      ) {
+        Dithers.push(style['water-corner-bottom-right']);
+      } else
+        // Triple tiles
+        if (
+          neighbours.top === TileEnum.Water &&
+          neighbours.right !== TileEnum.Water &&
+          neighbours.bottom === TileEnum.Water &&
+          neighbours.left === TileEnum.Water
+        ) {
+          Dithers.push(style['water-top-left-bottom']);
+        } else if (
+          neighbours.top === TileEnum.Water &&
+          neighbours.right === TileEnum.Water &&
+          neighbours.bottom === TileEnum.Water &&
+          neighbours.left !== TileEnum.Water
+        ) {
+          Dithers.push(style['water-top-right-bottom']);
+        } else if (
+          neighbours.top === TileEnum.Water &&
+          neighbours.right === TileEnum.Water &&
+          neighbours.bottom !== TileEnum.Water &&
+          neighbours.left === TileEnum.Water
+        ) {
+          Dithers.push(style['water-top-left-right']);
+        } else if (
+          neighbours.top !== TileEnum.Water &&
+          neighbours.right === TileEnum.Water &&
+          neighbours.bottom === TileEnum.Water &&
+          neighbours.left === TileEnum.Water
+        ) {
+          Dithers.push(style['water-left-right-bottom']);
+        } else
+          // Double tiles
+          if (
+            neighbours.top === TileEnum.Water &&
+            neighbours.right !== TileEnum.Water &&
+            neighbours.bottom !== TileEnum.Water &&
+            neighbours.left === TileEnum.Water
+          ) {
+            Dithers.push(style['water-top-left']);
+          } else if (
+            neighbours.top === TileEnum.Water &&
+            neighbours.right === TileEnum.Water &&
+            neighbours.bottom !== TileEnum.Water &&
+            neighbours.left !== TileEnum.Water
+          ) {
+            Dithers.push(style['water-top-right']);
+          } else if (
+            neighbours.top !== TileEnum.Water &&
+            neighbours.right === TileEnum.Water &&
+            neighbours.bottom === TileEnum.Water &&
+            neighbours.left !== TileEnum.Water
+          ) {
+            Dithers.push(style['water-bottom-right']);
+          } else if (
+            neighbours.top !== TileEnum.Water &&
+            neighbours.right !== TileEnum.Water &&
+            neighbours.bottom === TileEnum.Water &&
+            neighbours.left === TileEnum.Water
+          ) {
+            Dithers.push(style['water-bottom-left']);
+          } else if (
+            neighbours.top === TileEnum.Water &&
+            neighbours.right !== TileEnum.Water &&
+            neighbours.bottom === TileEnum.Water &&
+            neighbours.left !== TileEnum.Water
+          ) {
+            Dithers.push(style['water-top-bottom']);
+          } else if (
+            neighbours.top !== TileEnum.Water &&
+            neighbours.right === TileEnum.Water &&
+            neighbours.bottom !== TileEnum.Water &&
+            neighbours.left === TileEnum.Water
+          ) {
+            Dithers.push(style['water-left-right']);
+          } else
+            // Single tiles
+            if (
+              neighbours.top === TileEnum.Water &&
+              neighbours.right !== TileEnum.Water &&
+              neighbours.bottom !== TileEnum.Water &&
+              neighbours.left !== TileEnum.Water
+            ) {
+              Dithers.push(style['water-top']);
+            } else if (
+              neighbours.top !== TileEnum.Water &&
+              neighbours.right === TileEnum.Water &&
+              neighbours.bottom !== TileEnum.Water &&
+              neighbours.left !== TileEnum.Water
+            ) {
+              Dithers.push(style['water-right']);
+            } else if (
+              neighbours.top !== TileEnum.Water &&
+              neighbours.right !== TileEnum.Water &&
+              neighbours.bottom === TileEnum.Water &&
+              neighbours.left !== TileEnum.Water
+            ) {
+              Dithers.push(style['water-bottom']);
+            } else if (
+              neighbours.top !== TileEnum.Water &&
+              neighbours.right !== TileEnum.Water &&
+              neighbours.bottom !== TileEnum.Water &&
+              neighbours.left === TileEnum.Water
+            ) {
+              Dithers.push(style['water-left']);
+            }
   }
 
   return (

@@ -257,9 +257,13 @@ export const Grid = ({
                     neighbours={
                       {
                         top: tiles.gridTiles.find(tile => tile.x === x && tile.y === newY + 1)?.type,
+                        topRight: tiles.gridTiles.find(tile => tile.x === x + 1 && tile.y === newY + 1)?.type,
                         right: tiles.gridTiles.find(tile => tile.x === x + 1 && tile.y === newY)?.type,
+                        bottomRight: tiles.gridTiles.find(tile => tile.x === x + 1 && tile.y === newY - 1)?.type,
                         bottom: tiles.gridTiles.find(tile => tile.x === x && tile.y === newY - 1)?.type,
+                        bottomLeft: tiles.gridTiles.find(tile => tile.x === x - 1 && tile.y === newY - 1)?.type,
                         left: tiles.gridTiles.find(tile => tile.x === x - 1 && tile.y === newY)?.type,
+                        topLeft: tiles.gridTiles.find(tile => tile.x === x - 1 && tile.y === newY + 1)?.type,
                       }
                     }
                   />

@@ -84,6 +84,18 @@
       &.water-top-left-right-bottom{
         background-image: url('./assets/grass/Grass-base-single.png');
       }
+      &.water-corner-top-left {
+        background-image: url('./assets/grass/Grass-base-corner-TL.png');
+      }
+      &.water-corner-top-right {
+        background-image: url('./assets/grass/Grass-base-corner-TR.png');
+      }
+      &.water-corner-bottom-left {
+        background-image: url('./assets/grass/Grass-base-corner-BL.png');
+      }
+      &.water-corner-bottom-right {
+        background-image: url('./assets/grass/Grass-base-corner-BR.png');
+      }
 
     }
     &.road{
