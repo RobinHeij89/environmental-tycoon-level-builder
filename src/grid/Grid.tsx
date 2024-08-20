@@ -244,8 +244,6 @@ export const Grid = ({
 
                   return (
                     <DualGridTile
-                      x={x}
-                      y={y}
                       tiles={
                         {
                           topRight: tiles.gridTiles.find(tile => tile.x === coords.topRight.x && tile.y === coords.topRight.y)?.type,

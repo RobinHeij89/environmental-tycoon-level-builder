@@ -4,8 +4,6 @@ import { TileEnum } from "../types"
 import style from './tile.module.css'
 
 type DualGridTileProps = {
-  x: number
-  y: number
   tiles: {
     topLeft?: TileEnum
     topRight?: TileEnum
@@ -14,7 +12,7 @@ type DualGridTileProps = {
   }
 }
 
-export const DualGridTile = ({ tiles, x, y }: DualGridTileProps) => {
+export const DualGridTile = ({ tiles}: DualGridTileProps) => {
   const tileClass = () => {
     
     if (
