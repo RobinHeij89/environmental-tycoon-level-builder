@@ -11,6 +11,7 @@ import style from './grid.module.css'
 import { mouseDownHandler, mouseUpHandler, onMouseEnter } from "./mouse-events";
 
 import Perlin from '../perlin';
+import { DualGridTile } from "../tiles/DualGridTile";
 
 type ChunkExportType = {
   terrainTiles: TileType[]
@@ -74,6 +75,7 @@ export const Grid = ({
   expandedSidebar, setExpandedSidebar,
   seed
 }: GridProps) => {
+  const [showDualGrid, setShowDualGrid] = useState<boolean>(false);
   const [showCoords, setShowCoords] = useState<boolean>(false);
   const [showGrid, setShowGrid] = useState<boolean>(true);
   const [showTreeHM, setShowTreeHM] = useState<boolean>(true);
@@ -218,6 +220,48 @@ export const Grid = ({
         </div>
       </div>
       <div className={style.content}>
+
+        {showDualGrid && (
+          <div
+            className={clsx(style.grid, style.dualgrid, style.landscape)}
+            style={{
+              gridTemplateColumns: `repeat(${tiles.chunkAmount * tiles.chunkSize - 1}, ${tileSize}px)`,
+              gridTemplateRows: `repeat(${tiles.chunkAmount * tiles.chunkSize - 1}, ${tileSize}px)`,
+              gap: showGrid ? 1 : 0
+            }}
+          >
+            {
+              Array.from({ length: tiles.chunkAmount * tiles.chunkSize - 1 }).map((_, y) => {
+                const newY = (tiles.chunkAmount * tiles.chunkSize) - y - 1;
+                return Array.from({ length: tiles.chunkAmount * tiles.chunkSize - 1 }).map((_, x) => {
+
+                  const coords = {
+                    topRight: { x: x + 1, y: newY },
+                    bottomRight: { x: x + 1, y: newY-1  },
+                    bottomLeft: { x: x, y: newY -1 },
+                    topLeft: { x: x , y: newY  },
+                  }
+
+                  return (
+                    <DualGridTile
+                      x={x}
+                      y={y}
+                      tiles={
+                        {
+                          topRight: tiles.gridTiles.find(tile => tile.x === coords.topRight.x && tile.y === coords.topRight.y)?.type,
+                          bottomRight: tiles.gridTiles.find(tile => tile.x === coords.bottomRight.x && tile.y === coords.bottomRight.y)?.type,
+                          bottomLeft: tiles.gridTiles.find(tile => tile.x === coords.bottomLeft.x && tile.y === coords.bottomLeft.y)?.type,
+                          topLeft: tiles.gridTiles.find(tile => tile.x === coords.topLeft.x && tile.y === coords.topLeft.y)?.type,
+                        }
+                      }
+                    />
+                  )
+                })
+              })
+            }
+          </div>
+        )}
+
         <div
           className={clsx(style.grid, style.landscape)}
           style={{
@@ -370,6 +414,14 @@ export const Grid = ({
             <Checkbox
               checked={showCoords}
               onChange={() => setShowCoords(!showCoords)}
+            ></Checkbox>
+          </label>
+          <div className={style.divider} />
+          <label>
+            <b>Show Dual Grid</b><br />
+            <Checkbox
+              checked={showDualGrid}
+              onChange={() => setShowDualGrid(!showDualGrid)}
             ></Checkbox>
           </label>
           <div className={style.divider} />

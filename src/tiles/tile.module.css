@@ -96,7 +96,6 @@
       &.water-corner-bottom-right {
         background-image: url('./assets/grass/Grass-base-corner-BR.png');
       }
-
     }
     &.road{
       background-image: url('./assets/road.png');
@@ -109,6 +108,50 @@
     }
     &.elevationdown{
       background-image: url('./assets/elevation-down.png');
+    }
+
+    &.dualtile{
+      background-image: url('./assets/dual-grid/grass.jpg');
+      &.water{
+        background-image: url('./assets/dual-grid/water.jpg');
+      }
+      &.water_top{
+        background-image: url('./assets/dual-grid/water_top.jpg');
+      }
+      &.water_bottom{
+        background-image: url('./assets/dual-grid/water_bottom.jpg');
+      }
+      &.water_left{
+        background-image: url('./assets/dual-grid/water_left.jpg');
+      }
+      &.water_right{
+        background-image: url('./assets/dual-grid/water_right.jpg');
+      }
+      &.water_top_left{
+        background-image: url('./assets/dual-grid/water_top_left.jpg');
+      }
+      &.water_top_right{
+        background-image: url('./assets/dual-grid/water_top_right.jpg');
+      }
+      &.water_bottom_left{
+        background-image: url('./assets/dual-grid/water_bottom_left.jpg');
+      }
+      &.water_bottom_right{
+        background-image: url('./assets/dual-grid/water_bottom_right.jpg');
+      }
+      &.grass_top_right{
+        background-image: url('./assets/dual-grid/grass_top_right.jpg');
+      }
+      &.grass_top_left{
+        background-image: url('./assets/dual-grid/grass_top_left.jpg');
+      }
+      &.grass_bottom_right{
+        background-image: url('./assets/dual-grid/grass_bottom_right.jpg');
+      }
+      &.grass_bottom_left{
+        background-image: url('./assets/dual-grid/grass_bottom_left.jpg');
+      }
+      
     }
   }
 }
