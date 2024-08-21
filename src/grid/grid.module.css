@@ -26,10 +26,11 @@
   display: grid;  
   gap: 4px;
   position: absolute;
+  transform: translateX(calc((50% + 20px)));
 
   &.dualgrid{
     border: 1px solid yellow;
-    transform: translateX(calc((100% + 40px) * -1));
+    transform: translateX(calc((50% + 20px) * -1));
   }
   &.roads{
     pointer-events: none;
