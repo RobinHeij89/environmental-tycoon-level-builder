@@ -151,7 +151,14 @@
       &.grass_bottom_left{
         background-image: url('./assets/dual-grid/grass_bottom_left.jpg');
       }
-      
+
+      &.water_top_left_bottom_right{
+        background-image: url('./assets/dual-grid/water_top_left_bottom_right.jpg');
+      }
+      &.water_bottom_left_top_right{
+        background-image: url('./assets/dual-grid/water_bottom_left_top_right.jpg');
+      }
+
     }
   }
 }
